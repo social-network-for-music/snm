@@ -1,0 +1,35 @@
+{
+    "name": "snm",
+    "version": "1.0.0",
+    "description": "-",
+    "main": "index.js",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/social-network-for-music/snm.git"
+    },
+    "author": "social-network-for-music",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/social-network-for-music/snm/issues"
+    },
+    "homepage": "https://github.com/social-network-for-music/snm#readme",
+    "dependencies": {
+        "react": "^18",
+        "react-dom": "^18",
+        "next": "14.1.0"
+    },
+    "devDependencies": {
+        "typescript": "^5",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "autoprefixer": "^10.0.1",
+        "postcss": "^8",
+        "tailwindcss": "^3.3.0"
+    }
+}
