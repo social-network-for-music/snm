@@ -8,7 +8,9 @@ import { AxiosError } from "axios";
 
 import * as auth from "@/api/auth.api";
 
-export default function Home() {
+import Layout from "@/components/layout";
+
+export default function() {
     const router = useRouter();
 
     useEffect(() => {
@@ -25,6 +27,8 @@ export default function Home() {
     }, []);
 
     return (
-        <b>Hello World!</b>
+        <Layout>
+            <div></div>
+        </Layout>
     );
 }

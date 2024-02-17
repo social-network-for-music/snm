@@ -10,7 +10,7 @@ export default function Document() {
     <Html lang="en">
       <Head/>
 
-      <body className="bg-spotify-black text-white">
+      <body className="bg-[#121212]">
         <Main/>
 
         <NextScript/>
