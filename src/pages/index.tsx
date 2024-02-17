@@ -1,12 +1,18 @@
+import { useEffect } from "react";
+
 import Link from "next/link";
 
-import { useRouter } from "next/navigation";
+import { 
+  useRouter,
+  
+  useSearchParams 
+} from "next/navigation";
 
-import { toast } from "react-toastify"
+import { toast } from "react-toastify";
 
 import { useForm } from "react-hook-form";
 
-import { FaLock, FaUser } from "react-icons/fa";
+import * as icons from "react-icons/fa";
 
 import * as auth from "@/api/auth.api";
 
@@ -17,7 +23,22 @@ import type { ILoginData } from "@/api/auth.api";
 export default function Index() {
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+
   const { register, handleSubmit } = useForm<ILoginData>();
+
+  useEffect(() => {
+    if (searchParams.get("timeout")) {
+      localStorage.removeItem("token");
+      
+      toast.info("Session expired, log in again...");
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (localStorage.getItem("token"))
+      router.push("/home");
+  }, []);
 
   const onSubmit: SubmitHandler<ILoginData> = async (data) => {
     try {
@@ -27,7 +48,7 @@ export default function Index() {
 
       router.push("/home");
     } catch (error: any) {
-      toast.error(error.response?.data?.error ?? 
+      toast.error(error.response?.data.error ?? 
         "Generic error, try again later...");
     }
   };
@@ -46,12 +67,12 @@ export default function Index() {
 
           <p className="xs:text-md sm:text-xl mb-1">
             Log in to explore our awesome playlists!
-            </p>
+          </p>
         </div>
 
         <div className="mb-5">
           <label className="inline-block text-md mb-2">
-            <FaUser className="inline -mt-1 mr-1"/> E-mail
+            <icons.FaUser className="inline -mt-1 mr-1"/> E-mail
           </label>
 
           <input
@@ -65,7 +86,7 @@ export default function Index() {
 
         <div className="mb-5">
           <label className="inline-block text-md mb-2">
-            <FaLock className="inline -mt-1 mr-1"/> Password
+            <icons.FaKey className="inline -mt-1 mr-1"/> Password
           </label>
 
           <input
