@@ -11,3 +11,15 @@ export function tracks(q: string): Promise<AxiosResponse<any>> {
         }
     );
 }
+
+export function recommendations(): Promise<AxiosResponse<any>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/spotify/recommendations`,
+        {
+            method: "GET",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}

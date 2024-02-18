@@ -1,4 +1,8 @@
-import { use, useEffect, useState } from "react";
+import { 
+    useEffect,
+    
+    useState
+} from "react";
 
 import { toast } from "react-toastify";
 
@@ -17,9 +21,11 @@ import TrackPreview from "@/components/track-preview";
 export default function() {
     const router = useRouter();
 
-    const [track, setTrack] = useState<any>(null);
+    const [value, setValue] = useState<string>();
 
+    const [track, setTrack] = useState<any>();
     const [tracks, setTracks] = useState<any[]>([]);
+    const [recommendations, setRecommendations] = useState<any[]>([]);
 
     useEffect(() => {
         if (!localStorage.getItem("token"))
@@ -34,15 +40,24 @@ export default function() {
                 });
     }, []);
 
-    async function search(value: string): Promise<void> {
-        try {
-            const data = (await spotify.tracks(value)).data;
+    useEffect(() => {
+        spotify.recommendations()
+            .then(({ data }) => {
+                setTracks(data.tracks);
 
-            setTracks(data.tracks.items);
-        } catch (_) {
-            setTracks([]);
-        }
-    }
+                setRecommendations(data.tracks);
+            });
+    }, []);
+
+    useEffect(() => {
+        if (!value)
+            setTracks(recommendations);
+
+        if (value)
+            spotify.tracks(value)
+                .then(({ data }) => setTracks(data.tracks.items))
+                .catch(_ => setTracks([]));
+    }, [value]);
 
     return (
         <Layout>
@@ -57,15 +72,31 @@ export default function() {
                             bg-spotify-darkgray text-white overflow-y-hidden"
                     >
                         <Search 
-                            className="mb-10"
+                            className="xs:mb-5 md:mb-10"
 
-                            onChange={(value) => search(value)}
+                            onChange={(value) => setValue(value)}
                         />
 
                         <div 
                             className="flex flex-row flex-wrap justify-center items-center 
                                 gap-5 h-[87%] overflow-y-scroll"
                         >
+                            { !value && tracks.length == 0 && (
+                                <div 
+                                    className="fw-full h-full text-spotify-lightergray text-xl font-semibold text-wrap text-center"
+                                >
+                                    Add a favorite artist or genre to generate recommendations...
+                                </div>
+                            )}
+
+                            { value && tracks.length == 0 && (
+                                <div 
+                                    className="fw-full h-full text-spotify-lightergray text-xl font-semibold text-wrap text-center"
+                                >
+                                    No track found...
+                                </div>
+                            )}
+
                             { tracks.map((track, i) => (
                                 <TrackPreview 
                                     key={i}
@@ -86,8 +117,8 @@ export default function() {
                     >
                         { !track && (
                             <div 
-                                className="flex items-center justify-center w-full h-full
-                                    text-spotify-lightergray font-semibold text-xl"
+                                className="flex justify-center items-center w-full h-full
+                                    text-spotify-lightergray text-xl font-semibold"
                             >
                                 Select a track to open its detail card...
                             </div>
