@@ -4,6 +4,15 @@ const nextConfig = {
   
   env: {
     API: process.env.API
+  },
+
+  images: {
+    remotePatterns: [{
+      protocol: "https",
+      hostname: "i.scdn.co",
+      pathname: "/image/*",
+      port: ""
+    }]
   }
 };
 

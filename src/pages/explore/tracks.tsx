@@ -11,8 +11,8 @@ import * as auth from "@/api/auth.api";
 import * as spotify from "@/api/spotify.api";
 
 import Layout from "@/components/layout";
-
 import Search from "@/components/search";
+import TrackPreview from "@/components/track-preview";
 
 export default function() {
     const router = useRouter();
@@ -36,7 +36,7 @@ export default function() {
         try {
             const data = (await spotify.tracks(value)).data;
 
-            setTracks(data.tracks.item);
+            setTracks(data.tracks.items);
         } catch (_) {
             setTracks([]);
         }
@@ -57,6 +57,16 @@ export default function() {
 
                             onChange={(value) => search(value)}
                         />
+
+                        <div className="flex flex-wrap justify-center gap-5">
+                            { tracks.map((track, i) => (
+                                <TrackPreview 
+                                    key={i}
+                                    track={track}
+                                    className="flow-initial"
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
 
