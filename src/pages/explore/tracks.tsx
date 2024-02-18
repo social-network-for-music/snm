@@ -47,10 +47,12 @@ export default function() {
             <div className="grid grid-cols-12 gap-0">
                 <div
                     className="xs:col-span-12 xl:col-span-7 xs:px-0 md:px-5
-                        xs:py-0 md:py-5 xl:pl-5 xl:pr-2.5 min-h-dvh"
+                        xs:py-0 md:py-5 xl:pl-5 xl:pr-2.5 min-h-dvh
+                        max-h-dvh"
                 >
                     <div
-                        className="w-full h-full px-7 py-5 md:rounded-md bg-spotify-darkgray text-white"
+                        className="w-full h-full px-5 py-5 md:rounded-md 
+                            bg-spotify-darkgray text-white overflow-y-hidden"
                     >
                         <Search 
                             className="mb-10"
@@ -58,7 +60,10 @@ export default function() {
                             onChange={(value) => search(value)}
                         />
 
-                        <div className="flex flex-wrap justify-center gap-5">
+                        <div 
+                            className="flex flex-row flex-wrap justify-center items-center 
+                                gap-5 h-[87%] overflow-y-scroll"
+                        >
                             { tracks.map((track, i) => (
                                 <TrackPreview 
                                     key={i}
@@ -72,7 +77,7 @@ export default function() {
 
                 <div 
                     className="xs:hidden xs:col-span-0 xl:block xl:col-span-5
-                        px-5 xs:py-5 xl:pl-2.5 xl:pr-5 min-h-dvh"
+                        px-5 xs:py-5 xl:pl-2.5 xl:pr-5 min-h-dvh max-h-dvh"
                 >
                     <div
                         className="w-full h-full rounded bg-spotify-darkgray"
