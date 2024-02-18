@@ -16,6 +16,8 @@ import * as spotify from "@/api/spotify.api";
 
 import Layout from "@/components/layout";
 import Search from "@/components/search";
+import Message from "@/components/message";
+
 import TrackPreview from "@/components/track-preview";
 
 export default function() {
@@ -42,21 +44,15 @@ export default function() {
 
     useEffect(() => {
         spotify.recommendations()
-            .then(({ data }) => {
-                setTracks(data.tracks);
-
-                setRecommendations(data.tracks);
-            });
+            .then(({ data }) => setRecommendations(data.tracks))
+            .catch((_) => {/* ignore */});
     }, []);
 
     useEffect(() => {
-        if (!value)
-            setTracks(recommendations);
-
         if (value)
             spotify.tracks(value)
                 .then(({ data }) => setTracks(data.tracks.items))
-                .catch(_ => setTracks([]));
+                .catch((_) => setTracks([]));
     }, [value]);
 
     return (
@@ -72,32 +68,34 @@ export default function() {
                             bg-spotify-darkgray text-white overflow-y-hidden"
                     >
                         <Search 
-                            className="xs:mb-5 md:mb-10"
+                            className="xs:mb-5 md:mb-7"
 
                             onChange={(value) => setValue(value)}
                         />
 
+                        { !value && (
+                            <div className="mb-5">
+                                <Message
+                                    description="You can search by track's title, genre, artist and release year."
+                                >
+                                    Start typing to explore millions of awesome tracks
+                                </Message>
+                            </div>
+                        )}
+
+                        { value && tracks.length == 0 && (
+                            <Message
+                                description="Please make sure your words are spelled correctly, or use fewer or different keywords."
+                            >
+                                No tracks found for "{value}"
+                            </Message>
+                        )}
+
                         <div 
-                            className="flex flex-row flex-wrap justify-center items-center 
-                                gap-5 h-[87%] overflow-y-scroll"
+                            className="flex flex-row flex-wrap justify-center
+                                items-center gap-5 h-[87%] overflow-y-scroll"
                         >
-                            { !value && tracks.length == 0 && (
-                                <div 
-                                    className="fw-full h-full text-spotify-lightergray text-xl font-semibold text-wrap text-center"
-                                >
-                                    Add a favorite artist or genre to generate recommendations...
-                                </div>
-                            )}
-
-                            { value && tracks.length == 0 && (
-                                <div 
-                                    className="fw-full h-full text-spotify-lightergray text-xl font-semibold text-wrap text-center"
-                                >
-                                    No track found...
-                                </div>
-                            )}
-
-                            { tracks.map((track, i) => (
+                            { (value ? tracks : recommendations).map((track, i) => (
                                 <TrackPreview 
                                     key={i}
                                     track={track}
@@ -118,9 +116,9 @@ export default function() {
                         { !track && (
                             <div 
                                 className="flex justify-center items-center w-full h-full
-                                    text-spotify-lightergray text-xl font-semibold"
+                                    text-[#404040] text-xl font-semibold"
                             >
-                                Select a track to open its detail card...
+                                Select a track to open its detail card
                             </div>
                         )}
                     </div>
