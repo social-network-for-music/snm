@@ -20,7 +20,9 @@ import Message from "@/components/message";
 
 import TrackPreview from "@/components/track-preview";
 
-export default function() {
+import TrackPreviewHorizontal from "@/components/track-preview-horizontal";
+
+export default function Tracks() {
     const router = useRouter();
 
     const [value, setValue] = useState<string>();
@@ -92,18 +94,36 @@ export default function() {
                             </Message>
                         )}
 
-                        <div 
-                            className="flex-1 flex flex-row flex-wrap
-                                justify-center items-center gap-5 
-                                overflow-y-scroll"
-                        >
-                            { (value ? tracks : recommendations).map((track, i) => (
-                                <TrackPreview 
-                                    key={i}
-                                    track={track}
-                                    className="flow-initial"
-                                />
-                            ))}
+                        <div className="flex-1 overflow-y-scroll">
+                            <div 
+                                className="xs:hidden md:flex flex-row
+                                    flex-wrap justify-center items-center 
+                                    gap-5"
+                            >
+                                { (value ? tracks : recommendations).map((track, i) => (
+                                    <TrackPreview 
+                                        key={i}
+                                        track={track}
+                                        className="flow-initial"
+
+                                        onClick={(_) => setTrack(track)}
+                                    />
+                                ))}
+                            </div>
+
+                            <div
+                                className="xs:block md:hidden mx-3"
+                            >
+                                { (value ? tracks : recommendations).map((track, i) => (
+                                    <TrackPreviewHorizontal
+                                        key={i}
+                                        track={track}
+                                        className="mb-3"
+
+                                        onClick={(_) => setTrack(track)}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

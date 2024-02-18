@@ -1,12 +1,17 @@
+import { 
+    MouseEventHandler,
+    
+    useState
+} from "react";
+
 import Image from "next/image";
-import { useState } from "react";
 
 import * as icons from "react-icons/fa";
 
 export interface ITrackPreviewProps {
     track: any;
-
     className?: string;
+    onClick?: MouseEventHandler;
 }
 
 export default function TrackPreview(props: ITrackPreviewProps) {
@@ -34,6 +39,8 @@ export default function TrackPreview(props: ITrackPreviewProps) {
                 w-[200px] h-[275px] bg-[#181818]
                 hover:bg-[#282828] rounded-xl 
                 cursor-pointer`}
+
+            onClick={(event) => props.onClick?.(event)}
         >
             <div className="pt-5 px-5">
                 <Image 
@@ -45,7 +52,7 @@ export default function TrackPreview(props: ITrackPreviewProps) {
                 />
 
                 <button 
-                    className={`absolute bottom-[70px] right-0 m-3 py-3 px-3 
+                    className={`absolute bottom-[70px] right-0 m-3 p-3 
                         rounded-full bg-spotify-green hover:bg-spotify-lightgreen 
                         active:bg-spotify-lightgreen ${!track.preview_url && "hidden"}`}
 

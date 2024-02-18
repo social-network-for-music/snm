@@ -56,7 +56,7 @@ export default function(props: PropsWithChildren) {
 
                 <Layout className="bg-spotify-black text-nowrap overflow-x-hidden">
                     <button 
-                        className="xs:block md:hidden absolute bottom-0 right-0 m-3 py-3 px-3 
+                        className="xs:block md:hidden absolute bottom-0 right-0 m-3 p-3 
                             rounded-full bg-spotify-gray hover:bg-spotify-lightgray 
                             active:bg-spotify-lightgray"
 
