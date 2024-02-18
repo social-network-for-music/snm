@@ -114,7 +114,7 @@ export default function Index() {
           <button 
             type="submit"
 
-            className="text-xl px-4 py-2 rounded-md font-bold w-full leading-tight bg-spotify-green hover:bg-spotify-greendark"
+            className="text-xl px-4 py-2 rounded-md font-bold w-full leading-tight bg-spotify-green hover:bg-spotify-darkgreen"
           >
             Log in
           </button>

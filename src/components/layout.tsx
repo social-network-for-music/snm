@@ -22,26 +22,32 @@ export default function(props: PropsWithChildren) {
             theme={{
                 components: {
                     Layout: {
-                        siderBg: "#121212"
+                        siderBg: "#191414"
                     }
                 }
             }}
         >
             <Layout className="min-h-dvh">
                 <Layout.Sider
-                    className="xs:block sm:hidden"
+                    className="xs:block md:hidden"
                     collapsed={collapsed}
                     width={300}
                     collapsedWidth={0}
                     trigger={null}
 
                     collapsible
+
+                    style={{
+                        position: "absolute", 
+                        
+                        height: "100dvh"
+                    }}
                 >
                     <Menu />
                 </Layout.Sider>
 
                 <Layout.Sider
-                    className="xs:hidden sm:block"
+                    className="xs:hidden md:block"
 
                     width={275}
                 >   
@@ -50,12 +56,13 @@ export default function(props: PropsWithChildren) {
 
                 <Layout className="bg-spotify-black text-nowrap overflow-x-hidden">
                     <button 
-                        className="xs:block sm:hidden fixed m-3 py-2 px-2 rounded
-                            bg-spotify-lightgray active:bg-spotify-gray"
+                        className="xs:block md:hidden absolute bottom-0 right-0 m-3 py-3 px-3 
+                            rounded-full bg-spotify-gray hover:bg-spotify-lightgray 
+                            active:bg-spotify-lightgray"
 
                         onClick={() => setCollapsed(!collapsed)}
                     >
-                        <icons.FaBars size={25}/>
+                        <icons.FaBars color="white" size={25}/>
                     </button>
 
                     <Layout.Content>

@@ -26,6 +26,7 @@ export function verify(): Promise<AxiosResponse<never>> {
     return axios(`${process.env.API}/auth/verify`,
         {
             method: "HEAD",
+            
             headers: { "Authorization": `Bearer ${token}` }
         }
     );
