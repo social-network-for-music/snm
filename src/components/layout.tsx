@@ -58,10 +58,8 @@ export default function(props: PropsWithChildren) {
                         <icons.FaBars size={25}/>
                     </button>
 
-                    <Layout.Content className="xs:mx-0 sm:mx-5 xs:my-0 sm:my-5">
-                        <div className="px-7 py-5 h-full sm:rounded-md bg-spotify-darkgray">
-                            {props.children}
-                        </div>
+                    <Layout.Content>
+                        {props.children}
                     </Layout.Content>
                 </Layout>
             </Layout>
