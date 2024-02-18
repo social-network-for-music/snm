@@ -63,9 +63,10 @@ export default function() {
                         xs:py-0 md:py-5 xl:pl-5 xl:pr-2.5 min-h-dvh
                         max-h-dvh"
                 >
-                    <div
-                        className="w-full h-full px-5 py-5 md:rounded-md 
-                            bg-spotify-darkgray text-white overflow-y-hidden"
+                    <div 
+                        className="flex flex-col w-full h-full 
+                            px-5 py-5 text-white overflow-y-hidden
+                            bg-spotify-darkgray md:rounded-md"
                     >
                         <Search 
                             className="xs:mb-5 md:mb-7"
@@ -92,8 +93,9 @@ export default function() {
                         )}
 
                         <div 
-                            className="flex flex-row flex-wrap justify-center
-                                items-center gap-5 h-[87%] overflow-y-scroll"
+                            className="flex-1 flex flex-row flex-wrap
+                                justify-center items-center gap-5 
+                                overflow-y-scroll"
                         >
                             { (value ? tracks : recommendations).map((track, i) => (
                                 <TrackPreview 
