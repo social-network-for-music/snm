@@ -18,6 +18,8 @@ import Layout from "@/components/layout";
 import Search from "@/components/search";
 import Message from "@/components/message";
 
+import Track from "@/components/track";
+
 import TrackPreview from "@/components/track-preview";
 
 import TrackPreviewHorizontal from "@/components/track-preview-horizontal";
@@ -66,64 +68,74 @@ export default function Tracks() {
                         max-h-dvh"
                 >
                     <div 
-                        className="flex flex-col w-full h-full 
-                            px-5 py-5 text-white overflow-y-hidden
-                            bg-spotify-darkgray md:rounded-md"
+                        className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-hidden"
                     >
-                        <Search 
-                            className="xs:mb-5 md:mb-7"
+                        <div className={`${track ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
+                            <Search 
+                                className="xs:mb-5 md:mb-7"
 
-                            onChange={(value) => setValue(value)}
-                        />
+                                onChange={(value) => setValue(value)}
+                            />
 
-                        { !value && (
-                            <div className="mb-5">
+                            { !value && (
+                                <div className="mb-5">
+                                    <Message
+                                        description="You can search by track's title, genre, artist and release year."
+                                    >
+                                        Start typing to explore millions of awesome tracks
+                                    </Message>
+                                </div>
+                            )}
+
+                            { value && tracks.length == 0 && (
                                 <Message
-                                    description="You can search by track's title, genre, artist and release year."
+                                    description="Please make sure your words are spelled correctly, or use fewer or different keywords."
                                 >
-                                    Start typing to explore millions of awesome tracks
+                                    No tracks found for "{value}"
                                 </Message>
+                            )}
+
+                            <div className="flex-1 overflow-y-scroll">
+                                <div 
+                                    className="xs:hidden md:flex flex-row
+                                        flex-wrap justify-center items-center 
+                                        gap-5"
+                                >
+                                    { (value ? tracks : recommendations).map((track, i) => (
+                                        <TrackPreview 
+                                            key={i}
+                                            track={track}
+                                            className="flow-initial"
+
+                                            onClick={(_) => setTrack(track)}
+                                        />
+                                    ))}
+                                </div>
+
+                                <div
+                                    className="xs:block md:hidden mx-3"
+                                >
+                                    { (value ? tracks : recommendations).map((track, i) => (
+                                        <TrackPreviewHorizontal
+                                            key={i}
+                                            track={track}
+                                            className="mb-3"
+
+                                            onClick={(_) => setTrack(track)}
+                                        />
+                                    ))}
+                                </div>
                             </div>
-                        )}
+                        </div>
 
-                        { value && tracks.length == 0 && (
-                            <Message
-                                description="Please make sure your words are spelled correctly, or use fewer or different keywords."
-                            >
-                                No tracks found for "{value}"
-                            </Message>
-                        )}
+                        <div className={`${track ? "xs:block xl:hidden" : "hidden"}`}>
+                            { track && (
+                                <Track 
+                                    track={track} 
 
-                        <div className="flex-1 overflow-y-scroll">
-                            <div 
-                                className="xs:hidden md:flex flex-row
-                                    flex-wrap justify-center items-center 
-                                    gap-5"
-                            >
-                                { (value ? tracks : recommendations).map((track, i) => (
-                                    <TrackPreview 
-                                        key={i}
-                                        track={track}
-                                        className="flow-initial"
-
-                                        onClick={(_) => setTrack(track)}
-                                    />
-                                ))}
-                            </div>
-
-                            <div
-                                className="xs:block md:hidden mx-3"
-                            >
-                                { (value ? tracks : recommendations).map((track, i) => (
-                                    <TrackPreviewHorizontal
-                                        key={i}
-                                        track={track}
-                                        className="mb-3"
-
-                                        onClick={(_) => setTrack(track)}
-                                    />
-                                ))}
-                            </div>
+                                    onClose={() => setTrack(null)}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -142,6 +154,14 @@ export default function Tracks() {
                             >
                                 Select a track to open its detail card
                             </div>
+                        )}
+
+                        { track && (
+                            <Track 
+                                track={track}
+                                
+                                onClose={() => setTrack(null)}
+                            />
                         )}
                     </div>
                 </div>
