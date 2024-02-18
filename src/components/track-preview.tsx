@@ -56,7 +56,11 @@ export default function TrackPreview(props: ITrackPreviewProps) {
                         rounded-full bg-spotify-green hover:bg-spotify-lightgreen 
                         active:bg-spotify-lightgreen ${!track.preview_url && "hidden"}`}
 
-                    onClick={() => audio ? stop() : start()}
+                    onClick={(event) => {
+                        event.stopPropagation();
+
+                        audio ? stop() : start();
+                    }}
                 >
                     { audio ?
                         <icons.FaPause color="black" size={25}/> :
