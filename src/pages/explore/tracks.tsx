@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import { toast } from "react-toastify";
 
@@ -16,6 +16,8 @@ import TrackPreview from "@/components/track-preview";
 
 export default function() {
     const router = useRouter();
+
+    const [track, setTrack] = useState<any>(null);
 
     const [tracks, setTracks] = useState<any[]>([]);
 
@@ -82,7 +84,14 @@ export default function() {
                     <div
                         className="w-full h-full rounded bg-spotify-darkgray"
                     >
-
+                        { !track && (
+                            <div 
+                                className="flex items-center justify-center w-full h-full
+                                    text-spotify-lightergray font-semibold text-xl"
+                            >
+                                Select a track to open its detail card...
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
