@@ -64,14 +64,14 @@ export default function Index() {
 
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				<div className="text-center mb-3">
-					<h1 className="xs:text-5xl sm:text-5xl font-bold mb-1 text-spotify-green">
+				<div className="text-center xs:mb-7 sm:mb-10">
+                	<h1 className="xs:text-5xl sm:text-6xl font-bold -skew-y-3 bg-spotify-green">
 						SNM ♪
 					</h1>
 
-					<p className="xs:text-md sm:text-xl mb-1">
+                	<h3 className="xs:text-base sm:text-xl font-semibold -skew-y-3">
 						Log in to explore our awesome playlists!
-					</p>
+					</h3>
 				</div>
 
 				<div className="mb-5">
