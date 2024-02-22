@@ -38,10 +38,25 @@ export default function Playlists() {
     }, []);
 
     useEffect(() => {
+        search(query);
+    }, [query]);
+
+    function search(query: ISearchParams): void {
         _playlists.search(query)
             .then(({ data }) => setPlaylists(data))
             .catch((_) => setPlaylists([]));
-    }, [query]);
+    }
+
+    function toggle(playlist: IPlaylistPreview): void {
+        const endpoint = 
+            playlist.followers.includes(user!._id) ?
+                _playlists.unfollow : 
+                _playlists.follow;
+
+        endpoint(playlist._id)
+            .then((_) => search(query))
+            .catch((_) => {/* ignore */});
+    }
 
     return (
         <Template auth={true}>
@@ -80,12 +95,13 @@ export default function Playlists() {
                                     { playlists.map((playlist, i) => (
                                         <PlaylistPreview 
                                             key={i}
+                                            user={user!}
                                             playlist={playlist}
-                                            owner={user?._id == playlist.owner._id}
-
                                             className="flow-initial"
 
                                             onClick={(_) => setPlaylist(playlist)}
+
+                                            onToggle={(playlist) => toggle(playlist)}
                                         />
                                     ))}
                                 </div>
@@ -96,12 +112,14 @@ export default function Playlists() {
                                     { playlists.map((playlist, i) => (
                                         <PlaylistPreviewHorizontal
                                             key={i}
-                                            playlist={playlist}
-                                            owner={user?._id == playlist.owner._id}
 
+                                            user={user!}
+                                            playlist={playlist}
                                             className="mb-3"
 
                                             onClick={(_) => setPlaylist(playlist)}
+                                            
+                                            onToggle={(playlist) => toggle(playlist)}
                                         />
                                     ))}
                                 </div>

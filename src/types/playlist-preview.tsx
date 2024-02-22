@@ -9,5 +9,5 @@ export default interface IPlaylistPreview {
     tags: string[];
     public: boolean;
     totalTracks: number;
-    totalFollowers: number;
+    followers: string[];
 }

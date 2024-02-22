@@ -59,3 +59,27 @@ export function thumbnail(id: string): Promise<AxiosResponse<IThumbnail>> {
         }
     );
 }
+
+export function follow(id: string): Promise<AxiosResponse<IPlaylist>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/playlists/${id}/follow`,
+        {
+            method: "PATCH",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
+
+export function unfollow(id: string): Promise<AxiosResponse<IPlaylist>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/playlists/${id}/unfollow`,
+        {
+            method: "PATCH",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
