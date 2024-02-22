@@ -2,7 +2,7 @@ import * as icons from "react-icons/fa";
 
 export interface ISearchProps {
     className?: string;
-
+    placeholder?: string;
     onChange?: (value: string) => void;
 }
 
@@ -17,7 +17,7 @@ export default function Search(props: ISearchProps) {
 
             <input 
                 type="text" 
-                placeholder="What are your favorite songs?"
+                placeholder={props.placeholder}
                 className="w-[85%] text-white text-lg bg-spotify-gray 
                     placeholder:text-spotify-lightergray outline-none"
 

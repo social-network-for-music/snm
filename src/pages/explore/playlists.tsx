@@ -10,34 +10,38 @@ import { useRouter } from "next/navigation";
 
 import { AxiosError } from "axios";
 
-import * as auth from "@/api/auth.api";
+import * as _auth from "@/api/auth.api";
 
-import * as spotify from "@/api/spotify.api";
+import * as _playlists from "@/api/playlists.api";
 
 import Layout from "@/components/layout";
 import Search from "@/components/search";
 import Message from "@/components/message";
 
-import Track from "@/components/track";
+import Playlist from "@/components/playlist";
 
-import TrackPreview from "@/components/track-preview";
+import PlaylistPreview from "@/components/playlist-preview";
 
-import TrackPreviewHorizontal from "@/components/track-preview-horizontal";
+import PlaylistPreviewHorizontal from "@/components/playlist-preview-horizontal";
 
-export default function Tracks() {
+export default function Playlists() {
     const router = useRouter();
 
-    const [value, setValue] = useState<string>();
+    const [query, setQuery] = useState<{
+        title?: string;
+        tag?: string;
+        track?: string;
+    }>({ });
 
-    const [track, setTrack] = useState<any>();
-    const [tracks, setTracks] = useState<any[]>([]);
-    const [recommendations, setRecommendations] = useState<any[]>([]);
+    const [playlist, setPlaylist] = useState<any>();
+
+    const [playlists, setPlaylists] = useState<any[]>([]);
 
     useEffect(() => {
         if (!localStorage.getItem("token"))
             router.push("/");
         else
-            auth.verify()
+            _auth.verify()
                 .catch((error: AxiosError) => {
                     if (error.response?.status == 401)
                         router.push(`/?timeout=1`);
@@ -47,17 +51,10 @@ export default function Tracks() {
     }, []);
 
     useEffect(() => {
-        spotify.recommendations()
-            .then(({ data }) => setRecommendations(data.tracks))
-            .catch((_) => {/* ignore */});
-    }, []);
-
-    useEffect(() => {
-        if (value)
-            spotify.tracks(value)
-                .then(({ data }) => setTracks(data.tracks.items))
-                .catch((_) => setTracks([]));
-    }, [value]);
+        _playlists.search(query)
+            .then(({ data }) => setPlaylists(data))
+            .catch((_) => setPlaylists([]));
+    }, [query]);
 
     return (
         <Layout>
@@ -70,28 +67,18 @@ export default function Tracks() {
                     <div 
                         className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-hidden"
                     >
-                        <div className={`${track ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
+                        <div className={`${playlist ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
                             <Search 
                                 className="xs:mb-5 md:mb-7"
-                                placeholder="What are your favorite songs?"
-                                onChange={(value) => setValue(value)}
+                                placeholder="What do you want to listen to?"
+                                onChange={(title) => setQuery({ ...query, title })}
                             />
 
-                            { !value && (
-                                <div className="mb-5">
-                                    <Message
-                                        description="You can search by track's title, genre, artist and release year."
-                                    >
-                                        Start typing to explore millions of awesome tracks
-                                    </Message>
-                                </div>
-                            )}
-
-                            { value && tracks.length == 0 && (
+                            { playlists.length == 0 && (
                                 <Message
-                                    description="Please make sure your words are spelled correctly, or use fewer or different keywords."
+                                    description="Try using other filters to get more results."
                                 >
-                                    No tracks found for "{value}"
+                                    No playlists found
                                 </Message>
                             )}
 
@@ -101,13 +88,13 @@ export default function Tracks() {
                                         flex-wrap justify-center items-center 
                                         gap-5"
                                 >
-                                    { (value ? tracks : recommendations).map((track, i) => (
-                                        <TrackPreview 
+                                    { playlists.map((playlist, i) => (
+                                        <PlaylistPreview 
                                             key={i}
-                                            track={track}
+                                            playlist={playlist}
                                             className="flow-initial"
 
-                                            onClick={(_) => setTrack(track)}
+                                            onClick={(_) => setPlaylist(playlist)}
                                         />
                                     ))}
                                 </div>
@@ -115,25 +102,25 @@ export default function Tracks() {
                                 <div
                                     className="xs:block md:hidden mx-3"
                                 >
-                                    { (value ? tracks : recommendations).map((track, i) => (
-                                        <TrackPreviewHorizontal
+                                    { playlists.map((playlist, i) => (
+                                        <PlaylistPreviewHorizontal
                                             key={i}
-                                            track={track}
+                                            playlist={playlist}
                                             className="mb-3"
 
-                                            onClick={(_) => setTrack(track)}
+                                            onClick={(_) => setPlaylist(playlist)}
                                         />
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                        <div className={`${track ? "xs:block xl:hidden" : "hidden"}`}>
-                            { track && (
-                                <Track 
-                                    track={track} 
+                        <div className={`${playlist ? "xs:block xl:hidden" : "hidden"}`}>
+                            { playlist && (
+                                <Playlist 
+                                    playlist={playlist} 
 
-                                    onClose={() => setTrack(null)}
+                                    onClose={() => setPlaylist(null)}
                                 />
                             )}
                         </div>
@@ -147,20 +134,20 @@ export default function Tracks() {
                     <div
                         className="w-full h-full rounded bg-spotify-darkgray"
                     >
-                        { !track && (
+                        { !playlist && (
                             <div 
                                 className="flex justify-center items-center w-full h-full
                                     text-[#404040] text-xl font-semibold"
                             >
-                                Select a track to open its detail card
+                                Select a playlist to open its detail card
                             </div>
                         )}
 
-                        { track && (
-                            <Track 
-                                track={track}
+                        { playlist && (
+                            <Playlist 
+                                playlist={playlist}
                                 
-                                onClose={() => setTrack(null)}
+                                onClose={() => setPlaylist(null)}
                             />
                         )}
                     </div>
