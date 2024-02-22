@@ -1,6 +1,8 @@
 import { 
+    MouseEventHandler,
+
+    PropsWithChildren,
     useEffect,
-    
     useState
 } from "react";
 
@@ -21,6 +23,28 @@ import PlaylistPreviewHorizontal from "@/components/playlists/playlist-preview-h
 import type IUser from "@/types/user";
 
 import type IPlaylistPreview from "@/types/playlist-preview";
+
+interface ISelectProps extends PropsWithChildren {
+    active: boolean;
+
+    onClick: MouseEventHandler
+}
+
+function Select(props: ISelectProps) {
+    return (
+        <div
+            className={`${props.active ? "bg-[#125c37]" : "bg-[#1D8B54] hover:bg-[#125c37]"}
+                inline font-semibold text-center rounded-full
+                mr-3 px-5 py-1 xs:text-sm sm:text-base
+                cursor-pointer
+            `}
+
+            onClick={(event) => props.onClick?.(event)}
+        >
+            { props.children }
+        </div>
+    );
+}
 
 export default function Playlists() {
     const [user, setUser] = useState<IUser>();
@@ -68,22 +92,47 @@ export default function Playlists() {
                         className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-hidden"
                     >
                         <div className={`${playlist ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
+                            <div className="xs:mb-3 sm:mb-5">
+                                <Select 
+                                    active={select == "all"}
+
+                                    onClick={(_) => setSelect("all")}
+                                >
+                                    All
+                                </Select>
+
+                                <Select 
+                                    active={select == "owner"}
+
+                                    onClick={(_) => setSelect("owner")}
+                                >
+                                    Owner
+                                </Select>
+
+                                <Select 
+                                    active={select == "follower"}
+                                    
+                                    onClick={(_) => setSelect("follower")}
+                                >
+                                    Follower
+                                </Select>
+                            </div>
+
                             <div className="xs:mb-3 md:mb-5">
                                 <Message
                                     description="Add or follow a playlist to view it in your collection."
                                 >
-                                    Your favorite playlists are here!
+                                    Your personal collection of awesome playlists!
                                 </Message>
                             </div>
 
                             <div
-                                className="flex justify-center items-center"
+                                className="flex justify-center items-center xs:mb-5 md:mb-7"
                             >   
                                 <button
                                     className="w-48 text-lg py-2 rounded-full font-bold
                                         bg-spotify-green hover:bg-spotify-darkgreen
-                                        active:bg-spotify-darkgreen leading-tight 
-                                        mb-5"
+                                        active:bg-spotify-darkgreen leading-tight"
                                 >
                                     Add playlist <icons.FaPlus className="inline -mt-1 ml-1"/>
                                 </button>
