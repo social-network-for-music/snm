@@ -55,13 +55,13 @@ export default function TrackPreviewHorizontal(props: ITrackPreviewHorizontalPro
 
                 <div className="flex-initial w-full truncate">
                     <div
-                        className="text-sm text-[#F8F8F8] font-semibold"
+                        className="text-sm text-[#F8F8F8] font-semibold truncate"
                     >
                         { track.name }
                     </div>
 
                     <div
-                        className="text-xs text-[#868686] mt-1"
+                        className="text-xs text-[#868686] mt-1 truncate"
                     >
                         { track.album.release_date.split("-")[0] } • 
                             By { track.artists[0].name }
@@ -70,9 +70,9 @@ export default function TrackPreviewHorizontal(props: ITrackPreviewHorizontalPro
 
                 <div className="flex-none p-4">
                     <button 
-                        className={`p-3 rounded-full bg-spotify-green 
+                        className={`p-2 rounded-full bg-spotify-green text-base
                             hover:bg-spotify-lightgreen active:bg-spotify-lightgreen 
-                            ${!track.preview_url && "hidden"}`}
+                            text-black ${!track.preview_url && "hidden"}`}
 
                         onClick={(event) => {
                             event.stopPropagation();
@@ -81,8 +81,8 @@ export default function TrackPreviewHorizontal(props: ITrackPreviewHorizontalPro
                         }}
                     >
                         { audio ?
-                            <icons.FaPause color="black" size={15}/> :
-                            <icons.FaPlay color="black" size={15}/> 
+                            <icons.FaPause/> :
+                            <icons.FaPlay/> 
                         }
                     </button>
                 </div>

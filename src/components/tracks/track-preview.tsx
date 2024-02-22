@@ -52,9 +52,10 @@ export default function TrackPreview(props: ITrackPreviewProps) {
                 />
 
                 <button 
-                    className={`absolute bottom-[70px] right-0 m-3 p-3 
+                    className={`absolute bottom-[70px] right-0 m-3 p-2 text-xl
                         rounded-full bg-spotify-green hover:bg-spotify-lightgreen 
-                        active:bg-spotify-lightgreen ${!track.preview_url && "hidden"}`}
+                        active:bg-spotify-lightgreen text-black
+                        ${!track.preview_url && "hidden"}`}
 
                     onClick={(event) => {
                         event.stopPropagation();
@@ -63,8 +64,8 @@ export default function TrackPreview(props: ITrackPreviewProps) {
                     }}
                 >
                     { audio ?
-                        <icons.FaPause color="black" size={25}/> :
-                        <icons.FaPlay color="black" size={25}/> 
+                        <icons.FaPause/> :
+                        <icons.FaPlay/> 
                     }
                 </button>
 
