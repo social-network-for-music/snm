@@ -4,15 +4,7 @@ import {
     useState
 } from "react";
 
-import { toast } from "react-toastify";
-
-import { useRouter } from "next/navigation";
-
-import { AxiosError } from "axios";
-
 import * as icons from "react-icons/fa";
-
-import * as auth from "@/api/auth.api";
 
 import * as spotify from "@/api/spotify.api";
 
@@ -27,26 +19,11 @@ import TrackPreview from "@/components/track-preview";
 import TrackPreviewHorizontal from "@/components/track-preview-horizontal";
 
 export default function Tracks() {
-    const router = useRouter();
-
     const [value, setValue] = useState<string>();
 
     const [track, setTrack] = useState<any>();
     const [tracks, setTracks] = useState<any[]>([]);
     const [recommendations, setRecommendations] = useState<any[]>([]);
-
-    useEffect(() => {
-        if (!localStorage.getItem("token"))
-            router.push("/");
-        else
-            auth.verify()
-                .catch((error: AxiosError) => {
-                    if (error.response?.status == 401)
-                        router.push(`/?timeout=1`);
-                    else
-                        toast.error("Generic error, try again later...");
-                });
-    }, []);
 
     useEffect(() => {
         spotify.recommendations()
@@ -62,7 +39,7 @@ export default function Tracks() {
     }, [value]);
 
     return (
-        <Template>
+        <Template auth={true}>
             <div className="grid grid-cols-12 gap-0">
                 <div
                     className="xs:col-span-12 xl:col-span-7 xs:px-0 md:px-5

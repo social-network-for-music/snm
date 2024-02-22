@@ -4,15 +4,7 @@ import {
     useState
 } from "react";
 
-import { toast } from "react-toastify";
-
-import { useRouter } from "next/navigation";
-
-import { AxiosError } from "axios";
-
 import * as icons from "react-icons/fa";
-
-import * as _auth from "@/api/auth.api";
 
 import * as _playlists from "@/api/playlists.api";
 
@@ -29,26 +21,11 @@ import PlaylistPreviewHorizontal from "@/components/playlist-preview-horizontal"
 import type { ISearchParams } from "@/api/playlists.api";
 
 export default function Playlists() {
-    const router = useRouter();
-
     const [playlist, setPlaylist] = useState<any>();
 
     const [playlists, setPlaylists] = useState<any[]>([]);
 
     const [query, setQuery] = useState<ISearchParams>({ });
-
-    useEffect(() => {
-        if (!localStorage.getItem("token"))
-            router.push("/");
-        else
-            _auth.verify()
-                .catch((error: AxiosError) => {
-                    if (error.response?.status == 401)
-                        router.push(`/?timeout=1`);
-                    else
-                        toast.error("Generic error, try again later...");
-                });
-    }, []);
 
     useEffect(() => {
         _playlists.search(query)
@@ -57,7 +34,7 @@ export default function Playlists() {
     }, [query]);
 
     return (
-        <Template>
+        <Template auth={true}>
             <div className="grid grid-cols-12 gap-0">
                 <div
                     className="xs:col-span-12 xl:col-span-7 xs:px-0 md:px-5

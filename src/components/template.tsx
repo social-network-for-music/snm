@@ -1,7 +1,7 @@
 import React, { 
     PropsWithChildren,
-
-    useState 
+    useState,
+    useEffect
 } from "react";
 
 import { 
@@ -10,12 +10,40 @@ import {
     Layout
 } from "antd/lib";
 
+import { toast } from "react-toastify";
+
+import { useRouter } from "next/navigation";
+
+import { AxiosError } from "axios";
+
 import * as icons from "react-icons/fa";
+
+import * as _auth from "@/api/auth.api";
 
 import Menu from "./menu";
 
-export default function Template(props: PropsWithChildren) {
+export interface ITemplateProps extends PropsWithChildren {
+    auth?: boolean;
+}
+
+export default function Template(props: ITemplateProps) {
+    const router = useRouter();
+
     const [collapsed, setCollapsed] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (props.auth)
+            if (!localStorage.getItem("token"))
+                router.push("/");
+            else
+                _auth.verify()
+                    .catch((error: AxiosError) => {
+                        if (error.response?.status == 401)
+                            router.push(`/?timeout=1`);
+                        else
+                            toast.error("Generic error, try again later...");
+                    });
+    }, []);
 
     return (
         <ConfigProvider
