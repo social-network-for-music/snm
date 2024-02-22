@@ -29,6 +29,8 @@ export default function Playlists() {
     const [playlist, setPlaylist] = useState<IPlaylistPreview>();
     const [playlists, setPlaylists] = useState<IPlaylistPreview[]>([]);
 
+    const [collapsed, setCollapsed] = useState<boolean>(true);
+
     const [query, setQuery] = useState<ISearchParams>({ });
 
     useEffect(() => {
@@ -70,13 +72,41 @@ export default function Playlists() {
                         className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-hidden"
                     >
                         <div className={`${playlist ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
-                            <Input 
-                                icon={icons.FaSearch}
-                                className="xs:mb-5 md:mb-7"
-                                placeholder="What do you want to listen to?"
+                            <div className="flex flex-wrap justify-center items-center cursor-pointer xs:mb-3 md:mb-5">
+                                <Input 
+                                    icon={icons.FaSearch}
+                                    placeholder="What do you want to listen to?"
+                                    onChange={(title) => setQuery({ ...query, title })}
+                                />
+ 
+                                <div 
+                                    className="xs:mt-1 md:mt-2 xs:text-3xl sm:text-4xl"
+                                    
+                                    onClick={(_) => setCollapsed(!collapsed)}
+                                >
+                                    { collapsed ? <icons.FaCaretUp /> : <icons.FaCaretDown />}
+                                </div>
 
-                                onChange={(title) => setQuery({ ...query, title })}
-                            />
+                                { !collapsed &&
+                                    <div className="w-full mb-1">
+                                        <Input 
+                                            className="xs:py-1 sm:py-2"
+
+                                            icon={icons.FaTag}
+                                            placeholder="Search by tag (e.g. rock)"
+                                            onChange={(tag) => setQuery({ ...query, tag })}
+                                        />
+
+                                        <Input 
+                                            className="xs:py-1 sm:py-2"
+
+                                            icon={icons.FaMusic}
+                                            placeholder="Search by track (e.g. Africa)"
+                                            onChange={(track) => setQuery({ ...query, track })}
+                                        />
+                                    </div>
+                                }
+                            </div>
 
                             { playlists.length == 0 && (
                                 <Message
