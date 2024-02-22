@@ -4,10 +4,14 @@ import * as icons from "react-icons/fa6";
 
 import Thumbnail from "@/components/utilities/thumbnail";
 
+import type IUser from "@/types/user";
+
 import type IPlaylistPreview from "@/types/playlist-preview";
 
 export interface IPlaylistPreviewProps {
     playlist: IPlaylistPreview;
+
+    owner?: boolean;
     className?: string;
     onClick?: MouseEventHandler;
 }
@@ -41,7 +45,7 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
                     className="text-md text-[#868686] mt-0 truncate"
                 >
                     <p>
-                        { playlist.owner.username } • { playlist.totalFollowers } followers
+                        { playlist.owner.username } { props.owner && <icons.FaCrown className="inline -mt-1 mx-0.5"/> } • { playlist.totalFollowers } followers
                     </p>
                     
                     <p>{ playlist.totalTracks } tracks</p>

@@ -6,6 +6,8 @@ import {
 
 import * as icons from "react-icons/fa";
 
+import * as _users from "@/api/users.api";
+
 import * as _playlists from "@/api/playlists.api";
 
 import Template from "@/components/template";
@@ -13,21 +15,27 @@ import Input from "@/components/utilities/input";
 import Message from "@/components/utilities/message";
 
 import Playlist from "@/components/playlists/playlist";
-
 import PlaylistPreview from "@/components/playlists/playlist-preview";
-
 import PlaylistPreviewHorizontal from "@/components/playlists/playlist-preview-horizontal";
 
-import IPlaylistPreview from "@/types/playlist-preview";
+import type IUser from "@/types/user";
+
+import type IPlaylistPreview from "@/types/playlist-preview";
 
 import type { ISearchParams } from "@/api/playlists.api";
 
 export default function Playlists() {
+    const [user, setUser] = useState<IUser>();
     const [playlist, setPlaylist] = useState<IPlaylistPreview>();
-
     const [playlists, setPlaylists] = useState<IPlaylistPreview[]>([]);
 
     const [query, setQuery] = useState<ISearchParams>({ });
+
+    useEffect(() => {
+        _users.get()
+            .then(({ data }) => setUser(data))
+            .catch((_) => {/* ignore */});
+    }, []);
 
     useEffect(() => {
         _playlists.search(query)
@@ -73,6 +81,8 @@ export default function Playlists() {
                                         <PlaylistPreview 
                                             key={i}
                                             playlist={playlist}
+                                            owner={user?._id == playlist.owner._id}
+
                                             className="flow-initial"
 
                                             onClick={(_) => setPlaylist(playlist)}
@@ -87,6 +97,8 @@ export default function Playlists() {
                                         <PlaylistPreviewHorizontal
                                             key={i}
                                             playlist={playlist}
+                                            owner={user?._id == playlist.owner._id}
+
                                             className="mb-3"
 
                                             onClick={(_) => setPlaylist(playlist)}
