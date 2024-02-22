@@ -1,9 +1,9 @@
 import { MouseEventHandler } from "react";
 
-import type PlaylistPreview from "@/types/playlist-preview";
+import type IPlaylistPreview from "@/types/playlist-preview";
 
 export interface IPlaylistPreviewHorizontalProps {
-    playlist: PlaylistPreview;
+    playlist: IPlaylistPreview;
     className?: string;
     onClick?: MouseEventHandler;
 }

@@ -1,4 +1,4 @@
-export default interface PlaylistPreview {
+export default interface IPlaylistPreview {
     _id: string;
     owner: {
         _id: string;

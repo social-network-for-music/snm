@@ -4,7 +4,7 @@ import * as icons from "react-icons/fa6";
 
 import * as _playlists from "@/api/playlists.api";
 
-import type Playlist from "@/types/playlist";
+import type IPlaylist from "@/types/playlist";
 
 export interface IPlaylistProps {
     id: string;
@@ -15,7 +15,7 @@ export interface IPlaylistProps {
 export default function Playlist(props: IPlaylistProps) {
     const { id } = props;
 
-    const [playlist, setPlaylist] = useState<Playlist>();
+    const [playlist, setPlaylist] = useState<IPlaylist>();
 
     useEffect(() => {
         _playlists.get(id)

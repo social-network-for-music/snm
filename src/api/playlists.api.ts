@@ -1,8 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 
-import type Playlist from "@/types/playlist";
+import type IPlaylist from "@/types/playlist";
 
-import type PlaylistPreview from "@/types/playlist-preview";
+import type IPlaylistPreview from "@/types/playlist-preview";
+
+import type IThumbnail from "@/types/thumbnail";
 
 export interface ISearchParams {
     title?: string;
@@ -10,7 +12,7 @@ export interface ISearchParams {
     track?: string;
 }
 
-export function search(params: ISearchParams): Promise<AxiosResponse<PlaylistPreview[]>> {
+export function search(params: ISearchParams): Promise<AxiosResponse<IPlaylistPreview[]>> {
     const token = localStorage.getItem("token");
 
     return axios(`${process.env.API}/playlists/search`,
@@ -22,7 +24,7 @@ export function search(params: ISearchParams): Promise<AxiosResponse<PlaylistPre
     );
 }
 
-export function index(select: "all" | "owner" | "follower"): Promise<AxiosResponse<PlaylistPreview[]>> {
+export function index(select: "all" | "owner" | "follower"): Promise<AxiosResponse<IPlaylistPreview[]>> {
     const token = localStorage.getItem("token");
 
     return axios(`${process.env.API}/playlists`,
@@ -34,10 +36,22 @@ export function index(select: "all" | "owner" | "follower"): Promise<AxiosRespon
     );
 }
 
-export function get(id: string): Promise<AxiosResponse<Playlist>> {
+export function get(id: string): Promise<AxiosResponse<IPlaylist>> {
     const token = localStorage.getItem("token");
 
     return axios(`${process.env.API}/playlists/${id}`,
+        {
+            method: "GET",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
+
+export function thumbnail(id: string): Promise<AxiosResponse<IThumbnail>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/playlists/${id}/thumbnail`,
         {
             method: "GET",
 
