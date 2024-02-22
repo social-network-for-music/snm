@@ -22,6 +22,18 @@ export function search(params: ISearchParams): Promise<AxiosResponse<PlaylistPre
     );
 }
 
+export function index(select: "all" | "owner" | "follower"): Promise<AxiosResponse<PlaylistPreview[]>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/playlists`,
+        {
+            method: "GET",
+            params: { select },
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
+
 export function get(id: string): Promise<AxiosResponse<Playlist>> {
     const token = localStorage.getItem("token");
 
