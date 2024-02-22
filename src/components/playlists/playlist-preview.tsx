@@ -1,5 +1,7 @@
 import { MouseEventHandler } from "react";
 
+import * as icons from "react-icons/fa6";
+
 import Thumbnail from "@/components/utilities/thumbnail";
 
 import type IPlaylistPreview from "@/types/playlist-preview";
@@ -15,8 +17,8 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
  
     return (
         <div 
-            className={`${props.className} relative
-                w-[200px] h-[275px] bg-[#181818]
+            className={`${props.className}
+                w-[200px] h-[315px] bg-[#181818]
                 hover:bg-[#282828] rounded-xl 
                 cursor-pointer`}
 
@@ -33,7 +35,37 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
                     className="text-lg text-[#F8F8F8] font-semibold mt-3 truncate"
                 >
                     { playlist.title }
-                </div>      
+                </div>
+
+                <div
+                    className="text-md text-[#868686] mt-0 truncate"
+                >
+                    <p>
+                        { playlist.owner.username } • { playlist.totalFollowers } followers
+                    </p>
+                    
+                    <p>{ playlist.totalTracks } tracks</p>
+                </div>
+
+                { playlist.tags.length == 0 &&
+                    <div className="mt-4 text-[#868686]">
+                        No tags found
+                    </div>
+                }
+
+                { playlist.tags.length != 0 &&
+                    <div className="text-md mt-2 pb-2 overflow-x-scroll">
+                        { playlist.tags.map((tag, i) => (
+                            <div 
+                                className="inline mr-1 px-2 text-white bg-spotify-darkgreen rounded-full"
+                            
+                                key={i}
+                            >
+                                { tag }
+                            </div>
+                        ))}
+                    </div>
+                }
             </div>
         </div>
     );

@@ -18,12 +18,14 @@ import PlaylistPreview from "@/components/playlists/playlist-preview";
 
 import PlaylistPreviewHorizontal from "@/components/playlists/playlist-preview-horizontal";
 
+import IPlaylistPreview from "@/types/playlist-preview";
+
 import type { ISearchParams } from "@/api/playlists.api";
 
 export default function Playlists() {
-    const [playlist, setPlaylist] = useState<any>();
+    const [playlist, setPlaylist] = useState<IPlaylistPreview>();
 
-    const [playlists, setPlaylists] = useState<any[]>([]);
+    const [playlists, setPlaylists] = useState<IPlaylistPreview[]>([]);
 
     const [query, setQuery] = useState<ISearchParams>({ });
 
@@ -99,7 +101,7 @@ export default function Playlists() {
                                 <Playlist 
                                     id={playlist._id} 
 
-                                    onClose={() => setPlaylist(null)}
+                                    onClose={() => setPlaylist(undefined)}
                                 />
                             )}
                         </div>
@@ -125,8 +127,8 @@ export default function Playlists() {
                         { playlist && (
                             <Playlist
                                 id={playlist._id} 
-                                
-                                onClose={() => setPlaylist(null)}
+
+                                onClose={() => setPlaylist(undefined)}
                             />
                         )}
                     </div>

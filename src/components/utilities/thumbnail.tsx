@@ -33,10 +33,10 @@ function Container(props: IContainerProps) {
         <div 
             className={`${className} grid grid-rows-${rows} grid-cols-${columns} overflow-hidden rounded-md`}
         >
-            { images.map(image => (
+            { images.map((image, i) => (
                 <img 
+                    key={i}
                     src={image}
-
                     className="h-full object-cover"
                 />
             ))}
