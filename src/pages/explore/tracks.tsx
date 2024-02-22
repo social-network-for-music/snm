@@ -10,12 +10,14 @@ import { useRouter } from "next/navigation";
 
 import { AxiosError } from "axios";
 
+import * as icons from "react-icons/fa";
+
 import * as auth from "@/api/auth.api";
 
 import * as spotify from "@/api/spotify.api";
 
 import Layout from "@/components/layout";
-import Search from "@/components/search";
+import Input from "@/components/input";
 import Message from "@/components/message";
 
 import Track from "@/components/track";
@@ -71,9 +73,11 @@ export default function Tracks() {
                         className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-hidden"
                     >
                         <div className={`${track ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
-                            <Search 
+                            <Input 
+                                icon={icons.FaSearch}
                                 className="xs:mb-5 md:mb-7"
                                 placeholder="What are your favorite songs?"
+
                                 onChange={(value) => setValue(value)}
                             />
 

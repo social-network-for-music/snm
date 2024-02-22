@@ -10,12 +10,14 @@ import { useRouter } from "next/navigation";
 
 import { AxiosError } from "axios";
 
+import * as icons from "react-icons/fa";
+
 import * as _auth from "@/api/auth.api";
 
 import * as _playlists from "@/api/playlists.api";
 
 import Layout from "@/components/layout";
-import Search from "@/components/search";
+import Input from "@/components/input";
 import Message from "@/components/message";
 
 import Playlist from "@/components/playlist";
@@ -66,9 +68,11 @@ export default function Playlists() {
                         className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-hidden"
                     >
                         <div className={`${playlist ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
-                            <Search 
+                            <Input 
+                                icon={icons.FaSearch}
                                 className="xs:mb-5 md:mb-7"
                                 placeholder="What do you want to listen to?"
+
                                 onChange={(title) => setQuery({ ...query, title })}
                             />
 

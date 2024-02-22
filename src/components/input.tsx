@@ -1,19 +1,23 @@
 import * as icons from "react-icons/fa";
 
-export interface ISearchProps {
+import type { IconType } from "react-icons";
+
+export interface IInputProps {
+    icon: IconType;
     className?: string;
     placeholder?: string;
+
     onChange?: (value: string) => void;
 }
 
-export default function Search(props: ISearchProps) {
+export default function Input(props: IInputProps) {
     return (
         <div
             className={`${props.className} mt-2 w-full
                 py-3 pr-5 rounded-full bg-spotify-gray 
                 outline-none hover:ring-white hover:ring-2`}
         >
-            <icons.FaSearch size={20} color="#979797" className="inline -mt-1 ml-5 mr-3"/>
+            <props.icon size={20} color="#979797" className="inline -mt-2 ml-5 mr-3"/>
 
             <input 
                 type="text" 
