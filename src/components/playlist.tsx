@@ -1,13 +1,27 @@
+import { useEffect, useState } from "react";
+
 import * as icons from "react-icons/fa6";
 
+import * as _playlists from "@/api/playlists.api";
+
+import type Playlist from "@/types/playlist";
+
 export interface IPlaylistProps {
-    playlist: any;
+    id: string;
     className?: string;
     onClose?: () => void;
 }
 
-export default function Playlist(props: IPlaylistProps) {
-    const { playlist } = props;
+export default function(props: IPlaylistProps) {
+    const { id } = props;
+
+    const [playlist, setPlaylist] = useState<Playlist>();
+
+    useEffect(() => {
+        _playlists.get(id)
+            .then(({ data }) => setPlaylist(data))
+            .catch((_) => {/* ignore */});
+    }, []);
 
     return (
         <div className={`${props.className} text-white`}>
@@ -22,7 +36,11 @@ export default function Playlist(props: IPlaylistProps) {
             </div>
 
             <div>
-                
+                { playlist && (
+                    <div>
+                        { playlist.description }
+                    </div>
+                )}
             </div>
         </div>
     );

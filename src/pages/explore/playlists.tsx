@@ -24,18 +24,16 @@ import PlaylistPreview from "@/components/playlist-preview";
 
 import PlaylistPreviewHorizontal from "@/components/playlist-preview-horizontal";
 
+import type { ISearchParams } from "@/api/playlists.api";
+
 export default function Playlists() {
     const router = useRouter();
-
-    const [query, setQuery] = useState<{
-        title?: string;
-        tag?: string;
-        track?: string;
-    }>({ });
 
     const [playlist, setPlaylist] = useState<any>();
 
     const [playlists, setPlaylists] = useState<any[]>([]);
+
+    const [query, setQuery] = useState<ISearchParams>({ });
 
     useEffect(() => {
         if (!localStorage.getItem("token"))
@@ -118,7 +116,7 @@ export default function Playlists() {
                         <div className={`${playlist ? "xs:block xl:hidden" : "hidden"}`}>
                             { playlist && (
                                 <Playlist 
-                                    playlist={playlist} 
+                                    id={playlist._id} 
 
                                     onClose={() => setPlaylist(null)}
                                 />
@@ -144,8 +142,8 @@ export default function Playlists() {
                         )}
 
                         { playlist && (
-                            <Playlist 
-                                playlist={playlist}
+                            <Playlist
+                                id={playlist._id} 
                                 
                                 onClose={() => setPlaylist(null)}
                             />

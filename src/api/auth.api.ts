@@ -6,11 +6,7 @@ export interface ILoginData {
     rememberMe: boolean;
 }
 
-export interface ILoginResponse {
-    token: string;
-}
-
-export function login(data: ILoginData): Promise<AxiosResponse<ILoginResponse>> {
+export function login(data: ILoginData): Promise<AxiosResponse<{ token: string }>> {
     return axios(`${process.env.API}/auth/login`,
         {
             method: "POST",
@@ -20,7 +16,7 @@ export function login(data: ILoginData): Promise<AxiosResponse<ILoginResponse>> 
     );
 }
 
-export function verify(): Promise<AxiosResponse<never>> {
+export function verify(): Promise<AxiosResponse<void>> {
     const token = localStorage.getItem("token");
 
     return axios(`${process.env.API}/auth/verify`,
