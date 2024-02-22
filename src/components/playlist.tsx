@@ -12,7 +12,7 @@ export interface IPlaylistProps {
     onClose?: () => void;
 }
 
-export default function(props: IPlaylistProps) {
+export default function Playlist(props: IPlaylistProps) {
     const { id } = props;
 
     const [playlist, setPlaylist] = useState<Playlist>();

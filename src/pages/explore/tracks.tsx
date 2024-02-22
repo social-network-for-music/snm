@@ -16,7 +16,7 @@ import * as auth from "@/api/auth.api";
 
 import * as spotify from "@/api/spotify.api";
 
-import Layout from "@/components/layout";
+import Template from "@/components/template";
 import Input from "@/components/input";
 import Message from "@/components/message";
 
@@ -62,7 +62,7 @@ export default function Tracks() {
     }, [value]);
 
     return (
-        <Layout>
+        <Template>
             <div className="grid grid-cols-12 gap-0">
                 <div
                     className="xs:col-span-12 xl:col-span-7 xs:px-0 md:px-5
@@ -170,6 +170,6 @@ export default function Tracks() {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </Template>
     );
 }

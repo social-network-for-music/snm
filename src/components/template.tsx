@@ -14,7 +14,7 @@ import * as icons from "react-icons/fa";
 
 import Menu from "./menu";
 
-export default function(props: PropsWithChildren) {
+export default function Template(props: PropsWithChildren) {
     const [collapsed, setCollapsed] = useState<boolean>(true);
 
     return (

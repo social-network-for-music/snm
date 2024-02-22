@@ -8,7 +8,7 @@ export interface IPlaylistPreviewHorizontalProps {
     onClick?: MouseEventHandler;
 }
 
-export default function(props: IPlaylistPreviewHorizontalProps) {
+export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizontalProps) {
     return (
         <div
             className={`${props.className}`}

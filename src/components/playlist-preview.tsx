@@ -8,7 +8,7 @@ export interface IPlaylistPreviewProps {
     onClick?: MouseEventHandler;
 }
 
-export default function(props: IPlaylistPreviewProps) {
+export default function PlaylistPreview(props: IPlaylistPreviewProps) {
     return (
         <div
             className={`${props.className}`}
