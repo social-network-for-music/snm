@@ -9,14 +9,14 @@ import * as icons from "react-icons/fa";
 import * as _playlists from "@/api/playlists.api";
 
 import Template from "@/components/template";
-import Input from "@/components/input";
-import Message from "@/components/message";
+import Input from "@/components/utilities/input";
+import Message from "@/components/utilities/message";
 
-import Playlist from "@/components/playlist";
+import Playlist from "@/components/playlists/playlist";
 
-import PlaylistPreview from "@/components/playlist-preview";
+import PlaylistPreview from "@/components/playlists/playlist-preview";
 
-import PlaylistPreviewHorizontal from "@/components/playlist-preview-horizontal";
+import PlaylistPreviewHorizontal from "@/components/playlists/playlist-preview-horizontal";
 
 import type { ISearchParams } from "@/api/playlists.api";
 

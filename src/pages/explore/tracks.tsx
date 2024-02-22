@@ -9,14 +9,14 @@ import * as icons from "react-icons/fa";
 import * as spotify from "@/api/spotify.api";
 
 import Template from "@/components/template";
-import Input from "@/components/input";
-import Message from "@/components/message";
+import Input from "@/components/utilities/input";
+import Message from "@/components/utilities/message";
 
-import Track from "@/components/track";
+import Track from "@/components/tracks/track";
 
-import TrackPreview from "@/components/track-preview";
+import TrackPreview from "@/components/tracks/track-preview";
 
-import TrackPreviewHorizontal from "@/components/track-preview-horizontal";
+import TrackPreviewHorizontal from "@/components/tracks/track-preview-horizontal";
 
 export default function Tracks() {
     const [value, setValue] = useState<string>();
