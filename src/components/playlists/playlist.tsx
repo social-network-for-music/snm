@@ -21,7 +21,7 @@ export default function Playlist(props: IPlaylistProps) {
         _playlists.get(id)
             .then(({ data }) => setPlaylist(data))
             .catch((_) => {/* ignore */});
-    }, []);
+    }, [props.id]);
 
     return (
         <div className={`${props.className} text-white`}>
