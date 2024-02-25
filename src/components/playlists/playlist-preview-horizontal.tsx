@@ -9,7 +9,7 @@ import type IUser from "@/types/user";
 import type IPlaylistPreview from "@/types/playlist-preview";
 
 export interface IPlaylistPreviewHorizontalProps {
-    user: IUser;
+    user?: IUser;
     playlist: IPlaylistPreview;
     className?: string;
 
@@ -25,7 +25,7 @@ export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizon
         playlist
     } = props;
 
-    const owner = user._id == playlist.owner._id;
+    const owner = user?._id == playlist.owner._id;
     
     return (
         <div
@@ -45,7 +45,7 @@ export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizon
                     />
                 </div>
 
-                <div className="flex-initial w-full truncate">
+                <div className="flex-initial w-full truncate pr-2">
                     <div
                         className="text-sm text-spotify-white font-semibold truncate"
                     >
@@ -87,24 +87,26 @@ export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizon
                     </div>
                 </div>
 
-                <div className="flex-none w-[45px]">
-                    <button 
-                        className={`p-2 rounded-full bg-spotify-green text-base
-                            hover:bg-spotify-lightgreen active:bg-spotify-lightgreen 
-                            text-black ${owner && "hidden"}`}
+                { user &&
+                    <div className="flex-none w-[45px]">
+                        <button 
+                            className={`p-2 rounded-full bg-spotify-green text-base
+                                hover:bg-spotify-lightgreen active:bg-spotify-lightgreen 
+                                text-black ${owner && "hidden"}`}
 
-                        onClick={(event) => {
-                            event.stopPropagation();
-    
-                            props.onToggle?.(playlist);
-                        }}
-                    >
-                        { playlist.followers.includes(user._id) ?
-                            <icons.FaHeartCircleCheck/> :
-                            <icons.FaHeart/>
-                        }
-                    </button>
-                </div>
+                            onClick={(event) => {
+                                event.stopPropagation();
+        
+                                props.onToggle?.(playlist);
+                            }}
+                        >
+                            { playlist.followers.includes(user._id) ?
+                                <icons.FaHeartCircleCheck/> :
+                                <icons.FaHeart/>
+                            }
+                        </button>
+                    </div>
+                }
             </div>
         </div>
     );

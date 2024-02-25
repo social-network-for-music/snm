@@ -1,6 +1,10 @@
+import { useState } from "react";
+
 import Link from "next/link";
 
 import * as icons from "react-icons/fa6";
+
+import TrackDrawer from "../drawers/track-drawer";
 
 export interface ITrackProps {
     track: any;
@@ -10,6 +14,8 @@ export interface ITrackProps {
 
 export default function Track(props: ITrackProps) {
     const { track } = props;
+
+    const [open, setOpen] = useState<boolean>(false);
 
     function parseTime(duration: number): string {
         const minutes = Math.floor(duration / 60000);
@@ -21,7 +27,7 @@ export default function Track(props: ITrackProps) {
         <div className={`${props.className} relative text-white h-full`}>
             <div className="absolute w-full bg-spotify-darkgray bg-opacity-75 z-[100]">
                 <button 
-                    className="m-3 p-2 text-[#C1C1C1] hover:text-white active:text-white"
+                    className="m-2.5 p-2 text-[#C1C1C1] hover:text-white active:text-white"
 
                     onClick={() => props.onClose?.()}
                 >
@@ -61,7 +67,9 @@ export default function Track(props: ITrackProps) {
                     className="absolute bottom-0 right-0 m-3 p-2 rounded-full 
                         bg-spotify-green hover:bg-spotify-lightgreen
                         active:bg-spotify-lightgreen text-black"
-                    >
+
+                    onClick={(_) => setOpen(true)}
+                >
                     <icons.FaPlus size={25}/>
                 </button>
             </div>
@@ -100,6 +108,14 @@ export default function Track(props: ITrackProps) {
                     }
                 </div>
             </div>
+
+            <TrackDrawer 
+                track={track.id}
+
+                open={open}
+                setOpen={setOpen}
+                onClose={() => setOpen(false)}
+            />
         </div>
     );
 }

@@ -9,7 +9,7 @@ import type IUser from "@/types/user";
 import type IPlaylistPreview from "@/types/playlist-preview";
 
 export interface IPlaylistPreviewProps {
-    user: IUser;
+    user?: IUser;
     playlist: IPlaylistPreview;
     className?: string;
 
@@ -25,7 +25,7 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
         playlist
     } = props;
 
-    const owner = user._id == playlist.owner._id;
+    const owner = user?._id == playlist.owner._id;
  
     return (
         <div 
@@ -43,22 +43,24 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
                     className="h-40"
                 />
 
-                <button 
-                    className={`absolute bottom-[115px] right-0 m-3 p-2 text-2xl
-                        rounded-full bg-spotify-green hover:bg-spotify-lightgreen 
-                        active:bg-spotify-lightgreen text-black ${owner && "hidden"}`}
+                { user &&
+                    <button 
+                        className={`absolute bottom-[115px] right-0 m-3 p-2 text-2xl
+                            rounded-full bg-spotify-green hover:bg-spotify-lightgreen 
+                            active:bg-spotify-lightgreen text-black ${owner && "hidden"}`}
 
-                    onClick={(event) => {
-                        event.stopPropagation();
+                        onClick={(event) => {
+                            event.stopPropagation();
 
-                        props.onToggle?.(playlist);
-                    }}
-                > 
-                    { playlist.followers.includes(user._id) ?
-                        <icons.FaHeartCircleCheck/> :
-                        <icons.FaHeart/>
-                    }
-                </button>
+                            props.onToggle?.(playlist);
+                        }}
+                    > 
+                        { playlist.followers.includes(user._id) ?
+                            <icons.FaHeartCircleCheck/> :
+                            <icons.FaHeart/>
+                        }
+                    </button>
+                }
 
                 <div
                     className="text-lg text-spotify-white font-semibold mt-3 truncate"

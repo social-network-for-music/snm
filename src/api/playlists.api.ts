@@ -60,6 +60,30 @@ export function thumbnail(id: string): Promise<AxiosResponse<IThumbnail>> {
     );
 }
 
+export function add(id: string, track: string): Promise<AxiosResponse<IPlaylist>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/playlists/${id}/add/${track}`,
+        {
+            method: "PATCH",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
+
+export function remove(id: string, track: string): Promise<AxiosResponse<IPlaylist>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/playlists/${id}/remove/${track}`,
+        {
+            method: "PATCH",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
+
 export function follow(id: string): Promise<AxiosResponse<IPlaylist>> {
     const token = localStorage.getItem("token");
 
