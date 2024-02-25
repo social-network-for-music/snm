@@ -70,7 +70,7 @@ export default function TrackPreview(props: ITrackPreviewProps) {
                 </button>
 
                 <div
-                    className="text-lg text-[#F8F8F8] font-semibold mt-3 truncate"
+                    className="text-lg text-spotify-white font-semibold mt-3 truncate"
                 >
                     { track.name }
                 </div>

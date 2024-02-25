@@ -55,7 +55,7 @@ export default function TrackPreviewHorizontal(props: ITrackPreviewHorizontalPro
 
                 <div className="flex-initial w-full truncate">
                     <div
-                        className="text-sm text-[#F8F8F8] font-semibold truncate"
+                        className="text-sm text-spotify-white font-semibold truncate"
                     >
                         { track.name }
                     </div>

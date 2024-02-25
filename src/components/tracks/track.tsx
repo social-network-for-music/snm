@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import * as icons from "react-icons/fa6";
 
 export interface ITrackProps {
@@ -9,15 +11,15 @@ export interface ITrackProps {
 export default function Track(props: ITrackProps) {
     const { track } = props;
 
-    function parse(duration: number): string {
+    function parseTime(duration: number): string {
         const minutes = Math.floor(duration / 60000);
         const seconds = ((duration % 60000) / 1000).toFixed(0);
         return minutes + ":" + (+seconds < 10 ? "0" : "") + seconds;
     }
 
     return (
-        <div className={`${props.className} text-white`}>
-            <div className="h-auto">
+        <div className={`${props.className} relative text-white h-full`}>
+            <div className="absolute w-full bg-spotify-darkgray bg-opacity-75 z-[100]">
                 <button 
                     className="m-3 p-2 text-[#C1C1C1] hover:text-white active:text-white"
 
@@ -26,40 +28,76 @@ export default function Track(props: ITrackProps) {
                     <icons.FaXmark size={25}/>
                 </button>
             </div>
-
-            <div className="flex justify-center items-center">
-                <div className="flex flex-wrap justify-center items-center w-[275px]">
-                    <img 
-                        src={track.album.images[0].url}
-
-                        className="w-full border-[1px] border-[#868686]"
-                    />
-
-                    <div className="w-full text-center">
-                        <div className="text-xl text-[#F8F8F8] font-semibold mt-2 truncate">
-                            { track.name }
-                        </div>
-
-                        <div className="text-sm text-[#868686]">
-                            <p className="truncate">
-                                From { track.album.name }
-                            </p>
-
-                            <p className="truncate">
-                                By { track.artists[0].name }
-                            </p>
-
-                            <p className="mt-1">
-                                { track.album.release_date.split("-")[0] } • { parse(track.duration_ms) }
-                            </p>
-
-                            { track.explicit &&
-                                <p className="mt-1">
-                                    Explicit <icons.FaE className="inline -mt-1 text-base p-0.5 border-[1px] border-[#868686]"/>
-                                </p>
-                            }
-                        </div>
+            
+            <div className="absolute w-full px-5 pt-3 pb-5 bottom-0 left-0 bg-spotify-darkgray bg-opacity-75">
+                <div>
+                    <div className="text-lg text-spotify-white text-opacity-75 font-bold">
+                        <Link 
+                            className="hover:text-spotify-white"
+                            href={track.album.external_urls.spotify}
+                            target="_blank"
+                        >
+                            Open in Spotify <icons.FaSpotify className="inline -mt-1 ml-0.5"/>
+                        </Link>
                     </div>
+
+                    <div className="text-base text-[#868686]">
+                        <p><b>Duration</b>: { parseTime(track.duration_ms) } minutes</p>
+
+                        <p><b>Release date</b>: { new Date(track.album.release_date).toLocaleDateString("it-IT") }</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className="w-full h-[60vh] relative">
+                <img 
+                    src={track.album.images[0].url}
+
+                    className="w-full h-full object-cover"
+                />
+
+                <button 
+                    className="absolute bottom-0 right-0 m-3 p-2 rounded-full 
+                        bg-spotify-green hover:bg-spotify-lightgreen
+                        active:bg-spotify-lightgreen text-black"
+                    >
+                    <icons.FaPlus size={25}/>
+                </button>
+            </div>
+
+
+            <div className="w-full px-5">
+                <div className="text-3xl text-spotify-white font-bold mt-2 truncate">
+                    { track.name }
+                </div>
+
+                <div className="text-[#868686]">
+                    <div className="truncate">
+                        <Link 
+                            className="text-lg hover:text-spotify-white hover:underline"
+                            href={track.album.external_urls.spotify}
+                            target="_blank"
+                        >
+                            { track.album.name }
+                        </Link>
+                    </div>
+
+                    <div className="truncate mt-0.5">
+                        <Link 
+                            className="text-xl hover:text-spotify-white hover:underline"
+                            href={track.artists[0].external_urls.spotify}
+                            target="_blank"
+                        >
+                            { track.artists[0].name }
+                        </Link>
+                    </div>
+
+                    { track.explicit &&
+                        <p className="text-lg mt-2.5">
+                            Explicit <icons.FaE className="inline -mt-1 ml-0.5 p-0.5 text-base border-[1px] border-[#868686] rounded-sm"/>
+                        </p>
+                    }
                 </div>
             </div>
         </div>

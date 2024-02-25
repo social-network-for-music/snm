@@ -61,7 +61,7 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
                 </button>
 
                 <div
-                    className="text-lg text-[#F8F8F8] font-semibold mt-3 truncate"
+                    className="text-lg text-spotify-white font-semibold mt-3 truncate"
                 >
                     { playlist.title } { !playlist.public && <icons.FaLock className="inline -mt-1"/> }
                 </div>

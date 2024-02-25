@@ -67,8 +67,8 @@ export default function Template(props: ITemplateProps) {
 
                     style={{
                         position: "absolute", 
-                        
-                        height: "100dvh"
+                        height: "100dvh",
+                        zIndex: 10_000
                     }}
                 >
                     <Menu />
@@ -86,7 +86,7 @@ export default function Template(props: ITemplateProps) {
                     <button 
                         className="xs:block md:hidden absolute bottom-0 right-0 m-3 p-3 
                             rounded-full bg-spotify-gray hover:bg-spotify-lightgray 
-                            active:bg-spotify-lightgray"
+                            active:bg-spotify-lightgray z-[10000]"
 
                         onClick={() => setCollapsed(!collapsed)}
                     >

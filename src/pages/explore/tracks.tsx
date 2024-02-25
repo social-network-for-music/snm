@@ -109,7 +109,7 @@ export default function Tracks() {
                             </div>
                         </div>
 
-                        <div className={`${track ? "xs:block xl:hidden" : "hidden"}`}>
+                        <div className={`${track ? "xs:block xl:hidden" : "hidden"} h-full`}>
                             { track && (
                                 <Track 
                                     track={track} 

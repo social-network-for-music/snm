@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         spotify: {
           black: "#000000",
-
+          white: "#E9E9E9",
           gray: "#242424",
           lightgray: "#2A2A2A",
           lightergray: "#757575",

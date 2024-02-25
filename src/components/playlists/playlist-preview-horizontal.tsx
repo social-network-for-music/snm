@@ -47,7 +47,7 @@ export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizon
 
                 <div className="flex-initial w-full truncate">
                     <div
-                        className="text-sm text-[#F8F8F8] font-semibold truncate"
+                        className="text-sm text-spotify-white font-semibold truncate"
                     >
                         { playlist.title } { !playlist.public && <icons.FaLock className="inline -mt-1"/> }
                     </div>
