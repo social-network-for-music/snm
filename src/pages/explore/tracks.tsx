@@ -126,7 +126,7 @@ export default function Tracks() {
                         px-5 xs:py-5 xl:pl-2.5 xl:pr-5 min-h-dvh max-h-dvh"
                 >
                     <div
-                        className="w-full h-full rounded bg-spotify-darkgray"
+                        className="w-full h-full bg-spotify-darkgray md:rounded-md"
                     >
                         { !track && (
                             <div 

@@ -17,6 +17,8 @@ export default function Track(props: ITrackProps) {
 
     const [open, setOpen] = useState<boolean>(false);
 
+    const [about, setAbout] = useState<boolean>(true);
+
     function parseTime(duration: number): string {
         const minutes = Math.floor(duration / 60000);
         const seconds = ((duration % 60000) / 1000).toFixed(0);
@@ -25,7 +27,7 @@ export default function Track(props: ITrackProps) {
 
     return (
         <div className={`${props.className} relative text-white h-full`}>
-            <div className="absolute w-full bg-spotify-darkgray bg-opacity-75 z-[100]">
+            <div className="absolute w-full bg-spotify-darkgray bg-opacity-75 md:rounded-t-md z-[100]">
                 <button 
                     className="m-2.5 p-2 text-[#C1C1C1] hover:text-white active:text-white"
 
@@ -45,17 +47,23 @@ export default function Track(props: ITrackProps) {
                 </div>
             </div>
             
-            <div className="absolute w-full px-5 pt-3 pb-5 bottom-0 left-0 bg-spotify-darkgray bg-opacity-75">
+            <div className="absolute w-full px-5 pt-3 pb-5 bottom-0 left-0 bg-spotify-darkgray bg-opacity-75 md:rounded-b-md">
                 <div>
-                    <div className="text-lg text-spotify-white text-opacity-75 font-bold">
+                    <div 
+                        className="xs:text-lg sm:text-xl text-spotify-white text-opacity-75 font-bold cursor-pointer"
+                    
+                        onClick={(_) => setAbout(!about)}
+                    >
                         About <icons.FaCircleInfo className="inline -mt-1 ml-0.5"/>
                     </div>
 
-                    <div className="text-base text-[#868686]">
-                        <p><b>Duration</b>: { parseTime(track.duration_ms) } minutes</p>
+                    { about &&
+                        <div className="xs:text-base sm:text-lg text-[#868686]">
+                            <p><b>Duration</b>: { parseTime(track.duration_ms) } minutes</p>
 
-                        <p><b>Release date</b>: { new Date(track.album.release_date).toLocaleDateString("it-IT") }</p>
-                    </div>
+                            <p><b>Release date</b>: { new Date(track.album.release_date).toLocaleDateString("it-IT") }</p>
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -64,7 +72,7 @@ export default function Track(props: ITrackProps) {
                 <img 
                     src={track.album.images[0].url}
 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover md:rounded-t-md"
                 />
 
                 <button 
@@ -80,14 +88,14 @@ export default function Track(props: ITrackProps) {
 
 
             <div className="w-full px-5">
-                <div className="text-3xl text-spotify-white font-bold mt-2 truncate">
+                <div className="xs:text-3xl sm:text-4xl md:text-5xl text-spotify-white font-bold mt-2 truncate">
                     { track.name }
                 </div>
 
                 <div className="text-[#868686]">
                     <div className="truncate">
                         <Link 
-                            className="text-lg hover:text-spotify-white hover:underline"
+                            className="xs:text-lg sm:text-xl md:text-2xl hover:text-spotify-white hover:underline"
                             href={track.album.external_urls.spotify}
                             target="_blank"
                         >
@@ -97,7 +105,7 @@ export default function Track(props: ITrackProps) {
 
                     <div className="truncate">
                         <Link 
-                            className="text-xl hover:text-spotify-white hover:underline"
+                            className="xs:text-xl sm:text-xl md:text-2xl hover:text-spotify-white hover:underline"
                             href={track.artists[0].external_urls.spotify}
                             target="_blank"
                         >
@@ -106,7 +114,7 @@ export default function Track(props: ITrackProps) {
                     </div>
 
                     { track.explicit &&
-                        <p className="text-lg mt-2.5">
+                        <p className="xs:text-lg md:text-2xl mt-2.5">
                             Explicit <icons.FaE className="inline -mt-1 ml-0.5 p-0.5 text-base border-[1px] border-[#868686] rounded-sm"/>
                         </p>
                     }
