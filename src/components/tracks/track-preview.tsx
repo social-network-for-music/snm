@@ -36,7 +36,7 @@ export default function TrackPreview(props: ITrackPreviewProps) {
     return (
         <div 
             className={`${props.className} relative
-                w-[200px] h-[275px] bg-[#181818]
+                w-[175px] h-[235px] bg-[#181818]
                 hover:bg-[#282828] rounded-xl 
                 cursor-pointer`}
 
@@ -52,7 +52,7 @@ export default function TrackPreview(props: ITrackPreviewProps) {
                 />
 
                 <button 
-                    className={`absolute bottom-[70px] right-0 m-3 p-2 text-xl
+                    className={`absolute bottom-[57.5px] right-0 m-3 p-2 text-xl
                         rounded-full bg-spotify-green hover:bg-spotify-lightgreen 
                         active:bg-spotify-lightgreen text-black
                         ${!track.preview_url && "hidden"}`}
