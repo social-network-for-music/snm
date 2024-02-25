@@ -33,18 +33,22 @@ export default function Track(props: ITrackProps) {
                 >
                     <icons.FaXmark size={25}/>
                 </button>
+
+                <div className="float-right mt-4 mr-4 text-lg text-spotify-white text-opacity-75 font-bold">
+                    <Link 
+                        className="hover:text-spotify-white"
+                        href={track.album.external_urls.spotify}
+                        target="_blank"
+                    >
+                        Open in Spotify <icons.FaSpotify className="inline -mt-1 ml-0.5"/>
+                    </Link>
+                </div>
             </div>
             
             <div className="absolute w-full px-5 pt-3 pb-5 bottom-0 left-0 bg-spotify-darkgray bg-opacity-75">
                 <div>
                     <div className="text-lg text-spotify-white text-opacity-75 font-bold">
-                        <Link 
-                            className="hover:text-spotify-white"
-                            href={track.album.external_urls.spotify}
-                            target="_blank"
-                        >
-                            Open in Spotify <icons.FaSpotify className="inline -mt-1 ml-0.5"/>
-                        </Link>
+                        About <icons.FaCircleInfo className="inline -mt-1 ml-0.5"/>
                     </div>
 
                     <div className="text-base text-[#868686]">
@@ -70,7 +74,7 @@ export default function Track(props: ITrackProps) {
 
                     onClick={(_) => setOpen(true)}
                 >
-                    <icons.FaPlus size={25}/>
+                    <icons.FaPlus className="text-2xl"/>
                 </button>
             </div>
 
@@ -91,7 +95,7 @@ export default function Track(props: ITrackProps) {
                         </Link>
                     </div>
 
-                    <div className="truncate mt-0.5">
+                    <div className="truncate">
                         <Link 
                             className="text-xl hover:text-spotify-white hover:underline"
                             href={track.artists[0].external_urls.spotify}

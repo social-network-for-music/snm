@@ -42,7 +42,7 @@ export default function TrackDrawer(props: ITrackDrawer) {
         _playlists.index("owner")
             .then(({ data }) => setPlaylists(data))
             .catch((_) => {/* ignore */});
-    }, []);
+    }, [open]);
 
     function add(playlist: IPlaylistPreview): void {
         _playlists.add(playlist._id, track)
