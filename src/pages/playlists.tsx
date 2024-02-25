@@ -33,7 +33,7 @@ interface ISelectProps extends PropsWithChildren {
 function Select(props: ISelectProps) {
     return (
         <div
-            className={`${props.active ? "bg-[#125c37]" : "bg-[#1D8B54] hover:bg-[#125c37]"}
+            className={`${props.active ? "bg-spotify-green text-black" : "bg-spotify-lightgray text-white"}
                 inline font-semibold text-center rounded-full
                 mr-3 px-5 py-1 xs:text-sm sm:text-base
                 cursor-pointer
@@ -130,8 +130,8 @@ export default function Playlists() {
                                 className="flex justify-center items-center xs:mb-5 md:mb-7"
                             >   
                                 <button
-                                    className="w-48 text-lg py-2 rounded-full font-bold
-                                        bg-spotify-green hover:bg-spotify-darkgreen
+                                    className="w-48 text-black text-lg py-2 rounded-full
+                                        font-bold bg-spotify-green hover:bg-spotify-darkgreen
                                         active:bg-spotify-darkgreen leading-tight"
                                 >
                                     Add playlist <icons.FaPlus className="inline -mt-1 ml-1"/>
