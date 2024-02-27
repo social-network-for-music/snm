@@ -48,6 +48,18 @@ export function get(id: string): Promise<AxiosResponse<IPlaylist>> {
     );
 }
 
+export function del(id: string): Promise<AxiosResponse<IPlaylist>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/playlists/${id}`,
+        {
+            method: "DELETE",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
+
 export function thumbnail(id: string): Promise<AxiosResponse<IThumbnail>> {
     const token = localStorage.getItem("token");
 

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "antd.custom.css";
+
 ::-webkit-scrollbar {
     width: 5px;
     
@@ -18,22 +20,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background: #1DB95480;
-}
-
-.ant-drawer-header {
-    background-color: #121212;
-
-    opacity: 97.5%;
-}
-
-.ant-drawer-body {
-    background-color: #121212;
-
-    padding: 20px 20px !important;
-}
-
-.ant-drawer-title {
-    padding: 0px 10px;
-
-    color: #E9E9E9 !important;
 }

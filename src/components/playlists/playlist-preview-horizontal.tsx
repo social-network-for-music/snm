@@ -15,7 +15,7 @@ export interface IPlaylistPreviewHorizontalProps {
 
     onClick?: MouseEventHandler;
     
-    onToggle?: (playlist: IPlaylistPreview) => void;
+    onHeart?: (playlist: IPlaylistPreview) => void;
 }
 
 export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizontalProps) {
@@ -41,7 +41,7 @@ export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizon
                     <Thumbnail
                         id={playlist._id}
 
-                        className="h-20"
+                        className="h-20 rounded-md"
                     />
                 </div>
 
@@ -75,7 +75,7 @@ export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizon
                             <div className="text-md mt-2 pb-2 overflow-x-scroll">
                                 { playlist.tags.map((tag, i) => (
                                     <div 
-                                        className="inline mr-1 px-2 text-white bg-spotify-darkgreen rounded-full"
+                                        className="inline mr-1 px-2 bg-spotify-lightgray text-spotify-white rounded-full"
                                     
                                         key={i}
                                     >
@@ -97,7 +97,7 @@ export default function PlaylistPreviewHorizontal(props: IPlaylistPreviewHorizon
                             onClick={(event) => {
                                 event.stopPropagation();
         
-                                props.onToggle?.(playlist);
+                                props.onHeart?.(playlist);
                             }}
                         >
                             { playlist.followers.includes(user._id) ?

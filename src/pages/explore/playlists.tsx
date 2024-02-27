@@ -20,6 +20,8 @@ import PlaylistPreviewHorizontal from "@/components/playlists/playlist-preview-h
 
 import type IUser from "@/types/user";
 
+import type IPlaylist from "@/types/playlist";
+
 import type IPlaylistPreview from "@/types/playlist-preview";
 
 import type { ISearchParams } from "@/api/playlists.api";
@@ -49,7 +51,7 @@ export default function Playlists() {
             .catch((_) => setPlaylists([]));
     }
 
-    function toggle(playlist: IPlaylistPreview): void {
+    function heart(playlist: IPlaylist | IPlaylistPreview): void {
         const endpoint = 
             playlist.followers.includes(user!._id) ?
                 _playlists.unfollow : 
@@ -64,7 +66,7 @@ export default function Playlists() {
         <Template auth={true}>
             <div className="grid grid-cols-12 gap-0">
                 <div
-                    className="xs:col-span-12 xl:col-span-7 xs:px-0 md:px-5
+                    className="xs:col-span-12 xl:col-span-8 xs:px-0 md:px-5
                         xs:py-0 md:py-5 xl:pl-5 xl:pr-2.5 min-h-dvh
                         max-h-dvh"
                 >
@@ -131,7 +133,7 @@ export default function Playlists() {
 
                                             onClick={(_) => setPlaylist(playlist)}
 
-                                            onToggle={(playlist) => toggle(playlist)}
+                                            onHeart={(playlist) => heart(playlist)}
                                         />
                                     ))}
                                 </div>
@@ -149,7 +151,7 @@ export default function Playlists() {
 
                                             onClick={(_) => setPlaylist(playlist)}
                                             
-                                            onToggle={(playlist) => toggle(playlist)}
+                                            onHeart={(playlist) => heart(playlist)}
                                         />
                                     ))}
                                 </div>
@@ -160,8 +162,11 @@ export default function Playlists() {
                             { playlist && (
                                 <Playlist 
                                     id={playlist._id} 
+                
+                                    user={user!}
 
                                     onClose={() => setPlaylist(undefined)}
+                                    onChange={(_) => search(query)}
                                 />
                             )}
                         </div>
@@ -169,7 +174,7 @@ export default function Playlists() {
                 </div>
 
                 <div 
-                    className="xs:hidden xs:col-span-0 xl:block xl:col-span-5
+                    className="xs:hidden xs:col-span-0 xl:block xl:col-span-4
                         px-5 xs:py-5 xl:pl-2.5 xl:pr-5 min-h-dvh max-h-dvh"
                 >
                     <div
@@ -187,8 +192,10 @@ export default function Playlists() {
                         { playlist && (
                             <Playlist
                                 id={playlist._id} 
-
+                                
+                                user={user!}
                                 onClose={() => setPlaylist(undefined)}
+                                onChange={(_) => search(query)}
                             />
                         )}
                     </div>

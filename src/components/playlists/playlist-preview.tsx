@@ -15,7 +15,7 @@ export interface IPlaylistPreviewProps {
 
     onClick?: MouseEventHandler;
 
-    onToggle?: (playlist: IPlaylistPreview) => void;
+    onHeart?: (playlist: IPlaylistPreview) => void;
 }
 
 export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
@@ -40,7 +40,7 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
                 <Thumbnail
                     id={playlist._id}
 
-                    className="h-40"
+                    className="h-40 rounded-md"
                 />
 
                 { user &&
@@ -52,7 +52,7 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
                         onClick={(event) => {
                             event.stopPropagation();
 
-                            props.onToggle?.(playlist);
+                            props.onHeart?.(playlist);
                         }}
                     > 
                         { playlist.followers.includes(user._id) ?
@@ -92,7 +92,7 @@ export default function IPlaylistPreview(props: IPlaylistPreviewProps) {
                     <div className="text-md mt-2 pb-2 overflow-x-scroll">
                         { playlist.tags.map((tag, i) => (
                             <div 
-                                className="inline mr-1 px-2 text-white bg-spotify-darkgreen rounded-full"
+                                className="inline mr-1 px-2 bg-spotify-lightgray text-spotify-white rounded-full"
                             
                                 key={i}
                             >

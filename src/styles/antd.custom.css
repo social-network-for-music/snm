@@ -1,0 +1,27 @@
+:root {
+    --bg-spotify-gray: #121212;
+    --bg-spotify-lightgray: #181818;
+    --text-spotify-white: #E9E9E9;
+}
+
+.ant-drawer-header {
+    background-color: var(--bg-spotify-lightgray);
+}
+
+.ant-drawer-title {
+    color: var(--bg-spotify-white) !important;
+
+    padding: 0px 10px;
+}
+
+.ant-drawer-body {
+    background-color: var(--bg-spotify-gray);
+
+    padding: 20px !important;
+}
+
+.ant-modal-content {
+    background-color: var(--bg-spotify-gray) !important;
+
+    color: var(--text-spotify-white);
+}

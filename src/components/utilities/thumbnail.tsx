@@ -13,6 +13,8 @@ interface IContainerProps {
     columns: number;
     images: string[];
 
+    gradient?: boolean;
+
     className?: string;
 }
 
@@ -31,22 +33,28 @@ function Container(props: IContainerProps) {
 
     return (
         <div 
-            className={`${className} grid grid-rows-${rows} grid-cols-${columns} overflow-hidden rounded-md`}
+            className={`${className} grid grid-rows-${rows} grid-cols-${columns} overflow-hidden relative`}
         >
             { images.map((image, i) => (
                 <img 
                     key={i}
                     src={image}
-                    className="h-full object-cover"
+                    className="w-full h-full object-cover"
                 />
             ))}
+
+            { props.gradient &&
+                <div className="absolute w-full h-full bg-gradient-to-b from-transparent to-spotify-darkgray">
+                    
+                </div>
+            }
         </div>
     );
 }
 
 export interface IThumbnailProps {
     id: string;
-
+    gradient?: boolean;
     className?: string;
 }
 
@@ -59,17 +67,17 @@ export default function Thumbnail(props: IThumbnailProps) {
         _playlists.thumbnail(id)
             .then(({ data }) => setThumbnails(data["sizes"][640]))
             .catch((_) => {/* ignore */});
-    }, []);
+    }, [props.id]);
 
     return (
-        <div className={`${props.className}`}>
-            <Container 
-                rows={thumbnails.length <= 2 ? 1 : 2}
-                columns={thumbnails.length <= 1 ? 1 : 2}
-                images={thumbnails}
+        <Container 
+            rows={thumbnails.length <= 2 ? 1 : 2}
+            columns={thumbnails.length <= 1 ? 1 : 2}
+            images={thumbnails}
 
-                className="h-full"
-            />
-        </div>
+            gradient={props.gradient}
+
+            className={props.className}
+        />
     );
 }
