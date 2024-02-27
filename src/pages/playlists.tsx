@@ -91,7 +91,7 @@ export default function Playlists() {
                         max-h-dvh"
                 >
                     <div 
-                        className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-hidden"
+                        className="w-full h-full bg-spotify-darkgray md:rounded-md overflow-y-auto"
                     >
                         <div className={`${playlist ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
                             <div className="xs:mb-3 sm:mb-5">
@@ -200,7 +200,7 @@ export default function Playlists() {
                         px-5 xs:py-5 xl:pl-2.5 xl:pr-5 min-h-dvh max-h-dvh"
                 >
                     <div
-                        className="w-full h-full rounded bg-spotify-darkgray"
+                        className="w-full h-full rounded bg-spotify-darkgray overflow-y-auto"
                     >
                         { !playlist && (
                             <div 

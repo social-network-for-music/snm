@@ -14,6 +14,8 @@ import * as _playlists from "@/api/playlists.api";
 
 import Thumbnail from "@/components/utilities/thumbnail";
 
+import TrackPreviewHorizontal from "../tracks/track-preview-horizontal";
+
 import type IPlaylist from "@/types/playlist";
 
 import type IUser from "@/types/user";
@@ -48,8 +50,11 @@ export default function Playlist(props: IPlaylistProps) {
     const [delModalOpen, setDelModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        if (playlist)
+        if (playlist) {
             setOwner(user._id == playlist.owner._id)
+
+            props.onChange?.(playlist);
+        }
     }, [playlist]);
 
     useEffect(() => {
@@ -82,17 +87,21 @@ export default function Playlist(props: IPlaylistProps) {
                 _playlists.follow;
 
         endpoint(playlist._id)
-            .then((_) => {
-                get(id);
+            .then((_) => get(playlist._id))
+            .catch((_) => {/* ignore */});
+    }
 
-                props.onChange?.(playlist);
-            });
+    
+    function remove(playlist: IPlaylist, id: string): void {
+        _playlists.remove(playlist._id, id)
+            .then((_) => get(playlist._id))
+            .catch((_) => {/* ignore */});
     }
 
     return (
         <div className={props.className}>
             { playlist &&
-                <div className="relative text-white h-full">
+                <div className="relative text-white">
                     <div className="absolute w-full bg-spotify-darkgray bg-opacity-75 md:rounded-t-md z-[100]">
                         <button 
                             className="m-2.5 p-2 text-[#C1C1C1] hover:text-white active:text-white"
@@ -123,7 +132,7 @@ export default function Playlist(props: IPlaylistProps) {
                         }
                     </div>
             
-                    <div>
+                    <div className="pb-3">
                         <div className="w-full h-[45vh] relative">
                             <Thumbnail 
                                 id={playlist._id}
@@ -178,15 +187,39 @@ export default function Playlist(props: IPlaylistProps) {
                                 <div className="text-lg mt-3.5 pb-2.5 overflow-x-scroll mb-3.5">
                                     { playlist.tags.map((tag, i) => (
                                         <div 
-                                            className="inline mr-2.5 px-3 bg-spotify-lightgray text-spotify-white rounded-full"
-                                        
                                             key={i}
+
+                                            className="inline mr-2.5 px-3 bg-spotify-lightgray text-spotify-white rounded-full"
                                         >
                                             { tag }
                                         </div>
                                     ))}
                                 </div>
                             }
+
+                            <div className="mt-3">
+                                { playlist.tracks.map((track, i) => (
+                                    <div
+                                        className="flex justify-between"
+                                    >
+                                        <TrackPreviewHorizontal
+                                            key={i}
+                                            track={track}
+                                            className="mb-3"
+                                        />
+
+                                        { owner &&
+                                            <div 
+                                                className="flex-none place-self-center pr-1 pl-5 -mt-3 text-lg text-spotify-white cursor-pointer"
+
+                                                onClick={(_) => remove(playlist, track.id)}
+                                            >
+                                                { FaXmark }
+                                            </div>
+                                        }
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
