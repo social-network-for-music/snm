@@ -181,14 +181,16 @@ export default function Playlists() {
                             </div>
                         </div>
 
-                        <div className={`${playlist ? "xs:block xl:hidden" : "hidden"}`}>
+                        <div className={`${playlist ? "xs:block xl:hidden" : "hidden"} h-full`}>
                             { playlist && (
                                 <Playlist 
                                     id={playlist._id} 
 
                                     user={user!}
-                                    onClose={() => setPlaylist(undefined)}
+
+                                    className="h-full"
                                     onChange={(_) => index(select)}
+                                    onClose={() => setPlaylist(undefined)}
                                 />
                             )}
                         </div>
@@ -216,8 +218,10 @@ export default function Playlists() {
                                 id={playlist._id} 
                                 
                                 user={user!}
-                                onClose={() => setPlaylist(undefined)}
+
+                                className="h-full"
                                 onChange={(_) => index(select)}
+                                onClose={() => setPlaylist(undefined)}
                             />
                         )}
                     </div>

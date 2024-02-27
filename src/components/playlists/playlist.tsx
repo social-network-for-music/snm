@@ -14,7 +14,9 @@ import * as _playlists from "@/api/playlists.api";
 
 import Thumbnail from "@/components/utilities/thumbnail";
 
-import TrackPreviewHorizontal from "../tracks/track-preview-horizontal";
+import Track from "@/components/tracks/track";
+
+import TrackPreviewHorizontal from "@/components/tracks/track-preview-horizontal";
 
 import type IPlaylist from "@/types/playlist";
 
@@ -32,8 +34,8 @@ export interface IPlaylistProps {
     user: IUser;
 
     className?: string;
-    onClose?: () => void;
     onChange?: (playlist: IPlaylist) => void;
+    onClose?: () => void;
 }
 
 export default function Playlist(props: IPlaylistProps) {
@@ -44,10 +46,10 @@ export default function Playlist(props: IPlaylistProps) {
     } = props;
 
     const [owner, setOwner] = useState<boolean>();
-    
     const [playlist, setPlaylist] = useState<IPlaylist>();
-
     const [delModalOpen, setDelModalOpen] = useState<boolean>(false);
+
+    const [track, setTrack] = useState<any>();
 
     useEffect(() => {
         if (playlist) {
@@ -58,11 +60,12 @@ export default function Playlist(props: IPlaylistProps) {
     }, [playlist]);
 
     useEffect(() => {
-        get(id);
+        get(id)
+            .then(() => setTrack(undefined));
     }, [props.id]);
 
-    function get(id: string): void {
-        _playlists.get(id)
+    function get(id: string): Promise<void> {
+        return _playlists.get(id)
             .then(({ data }) => setPlaylist(data))
             .catch((_) => {/* ignore */});
     }
@@ -99,173 +102,193 @@ export default function Playlist(props: IPlaylistProps) {
     }
 
     return (
-        <div className={props.className}>
-            { playlist &&
-                <div className="relative text-white">
-                    <div className="absolute w-full bg-spotify-darkgray bg-opacity-75 md:rounded-t-md z-[100]">
-                        <button 
-                            className="m-2.5 p-2 text-[#C1C1C1] hover:text-white active:text-white"
+        <>
+            { playlist && (
+                <div className={props.className}>
+                    { track && (
+                        <Track 
+                            track={track}
+                            onAdd={(_) => props.onChange?.(playlist)}
+                            onClose={() => setTrack(undefined)}
+                        />
+                    )}
 
-                            onClick={() => props.onClose?.()}
-                        >
-                            <icons.FaXmark size={25}/>
-                        </button>
-
-                        { owner && 
-                            <div className="float-right mt-4 mr-4 text-lg text-spotify-white text-opacity-75 font-bold">
-                                <div 
-                                    className="inline hover:text-spotify-white cursor-pointer mr-3.5"
-
-                                    onClick={(_) => edit(playlist)}
+                    { !track && (
+                        <div className="relative text-white">
+                            <div className="absolute w-full bg-spotify-darkgray bg-opacity-75 md:rounded-t-md z-[100]">
+                                <button 
+                                    className="m-2.5 p-2 text-[#C1C1C1] hover:text-white active:text-white"
+        
+                                    onClick={() => props.onClose?.()}
                                 >
-                                    Edit <icons.FaGear className="inline -mt-1 ml-0.5"/>
-                                </div>
-
-                                <div 
-                                    className="inline hover:text-spotify-white cursor-pointer"
-
-                                    onClick={(_) => setDelModalOpen(true)}
-                                >
-                                    Delete <icons.FaTrash className="inline -mt-1 ml-0.5"/>
-                                </div>
-                            </div>
-                        }
-                    </div>
-            
-                    <div className="pb-3">
-                        <div className="w-full h-[45vh] relative">
-                            <Thumbnail 
-                                id={playlist._id}
-                                gradient={true}
-                                className="w-full h-full md:rounded-t-md"
-                            />
-
-                            <div
-                                className="absolute bottom-0 w-full px-5 pb-3 flex justify-between"
-                            >
-                                <div className="truncate">
-                                    <div className="text-5xl text-spotify-white font-bold truncate">
-                                        { playlist.title } { !playlist.public && <icons.FaLock className="inline -mt-4"/> }
-                                    </div>
-
-                                    <div className="text-xl text-[#C1C1C1] font-semibold mt-1 truncate">
-                                        <span className="font-bold">{ playlist.owner.username }</span> { owner && <icons.FaCrown className="inline -mt-1 mx-0.5"/> } • { playlist.tracks.length } tracks, {
-                                            playlist.public ?
-                                                `${playlist.followers.length} followers` :
-                                                "private"
-                                        }
-                                    </div>
-                                </div>
-
-                                { !owner &&
-                                    <div className="flex-none place-self-center">
-                                        <button 
-                                            className="m-0 p-3 text-3xl text-black rounded-full
-                                                bg-spotify-green hover:bg-spotify-lightgreen 
-                                                active:bg-spotify-lightgreen"
-
-                                            onClick={(_) => heart(playlist)}
-                                        > 
-                                            { playlist.followers.includes(user._id) ?
-                                                <icons.FaHeartCircleCheck/> :
-                                                <icons.FaHeart/>
-                                            }
-                                        </button>
+                                    <icons.FaXmark size={25}/>
+                                </button>
+        
+                                { owner && 
+                                    <div className="float-right mt-4 mr-4 text-lg text-spotify-white text-opacity-75 font-bold">
+                                        <div 
+                                            className="inline hover:text-spotify-white cursor-pointer mr-3.5"
+        
+                                            onClick={(_) => edit(playlist)}
+                                        >
+                                            Edit <icons.FaGear className="inline -mt-1 ml-0.5"/>
+                                        </div>
+        
+                                        <div 
+                                            className="inline hover:text-spotify-white cursor-pointer"
+        
+                                            onClick={(_) => setDelModalOpen(true)}
+                                        >
+                                            Delete <icons.FaTrash className="inline -mt-1 ml-0.5"/>
+                                        </div>
                                     </div>
                                 }
                             </div>
-                        </div>
-
-                        <div className="px-5">
-                            { playlist.description &&
-                                <div className="text-base w-full text-wrap break-all">
-                                    { playlist.description }
-                                </div>
-                            }
-
-                            { playlist.tags.length != 0 &&
-                                <div className="text-lg mt-3.5 pb-2.5 overflow-x-scroll mb-3.5">
-                                    { playlist.tags.map((tag, i) => (
-                                        <div 
-                                            key={i}
-
-                                            className="inline mr-2.5 px-3 bg-spotify-lightgray text-spotify-white rounded-full"
-                                        >
-                                            { tag }
-                                        </div>
-                                    ))}
-                                </div>
-                            }
-
-                            <div className="mt-3">
-                                { playlist.tracks.map((track, i) => (
+                    
+                            <div className="pb-3">
+                                <div className="w-full h-[45vh] relative">
+                                    <Thumbnail 
+                                        id={playlist._id}
+                                        gradient={true}
+                                        className="w-full h-full md:rounded-t-md"
+                                    />
+        
                                     <div
-                                        className="flex justify-between"
+                                        className="absolute bottom-0 w-full px-5 pb-3 flex justify-between"
                                     >
-                                        <TrackPreviewHorizontal
-                                            key={i}
-                                            track={track}
-                                            className="mb-3"
-                                        />
-
-                                        { owner &&
-                                            <div 
-                                                className="flex-none place-self-center pr-1 pl-5 -mt-3 text-lg text-spotify-white cursor-pointer"
-
-                                                onClick={(_) => remove(playlist, track.id)}
-                                            >
-                                                { FaXmark }
+                                        <div className="truncate">
+                                            <div className="text-5xl text-spotify-white font-bold truncate">
+                                                { playlist.title } { !playlist.public && <icons.FaLock className="inline -mt-4"/> }
+                                            </div>
+        
+                                            <div className="text-xl text-[#C1C1C1] font-semibold mt-1 truncate">
+                                                <span className="font-bold">{ playlist.owner.username }</span> { owner && <icons.FaCrown className="inline -mt-1 mx-0.5"/> } • { playlist.tracks.length } tracks, {
+                                                    playlist.public ?
+                                                        `${playlist.followers.length} followers` :
+                                                        "private"
+                                                }
+                                            </div>
+                                        </div>
+        
+                                        { !owner &&
+                                            <div className="flex-none place-self-center">
+                                                <button 
+                                                    className="m-0 p-3 text-3xl text-black rounded-full
+                                                        bg-spotify-green hover:bg-spotify-lightgreen 
+                                                        active:bg-spotify-lightgreen"
+        
+                                                    onClick={(_) => heart(playlist)}
+                                                > 
+                                                    { playlist.followers.includes(user._id) ?
+                                                        <icons.FaHeartCircleCheck/> :
+                                                        <icons.FaHeart/>
+                                                    }
+                                                </button>
                                             </div>
                                         }
                                     </div>
-                                ))}
+                                </div>
+        
+                                <div className="px-5">
+                                    { playlist.description &&
+                                        <div className="text-base w-full text-wrap break-all">
+                                            { playlist.description }
+                                        </div>
+                                    }
+        
+                                    { playlist.tags.length != 0 &&
+                                        <div className="text-lg mt-3.5 pb-2.5 overflow-x-scroll mb-3.5">
+                                            { playlist.tags.map((tag, i) => (
+                                                <div 
+                                                    key={i}
+        
+                                                    className="inline mr-2.5 px-3 bg-spotify-lightgray text-spotify-white rounded-full"
+                                                >
+                                                    { tag }
+                                                </div>
+                                            ))}
+                                        </div>
+                                    }
+        
+                                    <div className="mt-3"> 
+                                        { playlist.tracks.length == 0 &&
+                                            <div className="w-full mt-5 text-center text-lg text-[#C1C1C1] text-opacity-50 font-semibold">
+                                                No tracks found
+                                            </div>
+                                        }
+        
+                                        { playlist.tracks.map((track, i) => (
+                                            <div
+                                                className="flex justify-between"
+                                            >
+                                                <TrackPreviewHorizontal
+                                                    key={i}
+                                                    track={track}
+                                                    className="mb-3"
+        
+                                                    onClick={(_) => setTrack(track)}
+                                                />
+        
+                                                { owner &&
+                                                    <div 
+                                                        className="flex-none place-self-center pr-1 pl-5 -mt-3 text-lg text-spotify-white cursor-pointer"
+        
+                                                        onClick={(_) => remove(playlist, track.id)}
+                                                    >
+                                                        { FaXmark }
+                                                    </div>
+                                                }
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <Modal
-                        open={delModalOpen}    
-                        closeIcon={ FaXmark }
-                        footer={null}
-
-                        width={400}
-
-                        onCancel={(_) => setDelModalOpen(false)}
-                    >
-                        <div className="text-spotify-white">
-                            <h1 className="text-lg font-semibold">
-                                Warning <icons.FaTriangleExclamation className="inline -mt-1 "/>
-                            </h1>
-
-                            <p className="text-sm mt-1">
-                                Do you really want to delete this playlist?
-                            </p>
-                        </div>
-
-                        <div className="w-full mt-3 text-right">
-                            <button
-                                className="text-black text-base py-1.5 px-3.5 rounded-full
-                                    font-semibold bg-spotify-green hover:bg-spotify-darkgreen
-                                    active:bg-spotify-darkgreen leading-tight mr-3"
-
-                                onClick={(_) => setDelModalOpen(false)}
+        
+                            <Modal
+                                open={delModalOpen}    
+                                closeIcon={ FaXmark }
+                                footer={null}
+        
+                                width={400}
+        
+                                onCancel={(_) => setDelModalOpen(false)}
                             >
-                                Cancel
-                            </button>
-
-                            <button
-                                className="text-black text-base py-1.5 px-3.5 rounded-full
-                                    font-semibold bg-spotify-green hover:bg-spotify-darkgreen
-                                    active:bg-spotify-darkgreen leading-tight"
-
-                                onClick={(_) => del(playlist)}
-                            >
-                                Delete <icons.FaTrash className="inline -mt-1 "/>
-                            </button>
+                                <div className="text-spotify-white">
+                                    <h1 className="text-lg font-semibold">
+                                        Warning <icons.FaTriangleExclamation className="inline -mt-1 "/>
+                                    </h1>
+        
+                                    <p className="text-sm mt-1">
+                                        Do you really want to delete this playlist?
+                                    </p>
+                                </div>
+        
+                                <div className="w-full mt-3 text-right">
+                                    <button
+                                        className="text-black text-base py-1.5 px-3.5 rounded-full
+                                            font-semibold bg-spotify-green hover:bg-spotify-darkgreen
+                                            active:bg-spotify-darkgreen leading-tight mr-3"
+        
+                                        onClick={(_) => setDelModalOpen(false)}
+                                    >
+                                        Cancel
+                                    </button>
+        
+                                    <button
+                                        className="text-black text-base py-1.5 px-3.5 rounded-full
+                                            font-semibold bg-spotify-green hover:bg-spotify-darkgreen
+                                            active:bg-spotify-darkgreen leading-tight"
+        
+                                        onClick={(_) => del(playlist)}
+                                    >
+                                        Delete <icons.FaTrash className="inline -mt-1 "/>
+                                    </button>
+                                </div>
+                            </Modal>
                         </div>
-                    </Modal>
+                    )}
                 </div>
-            }
-        </div>
+            )}
+        </>
     );
 }

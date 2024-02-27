@@ -27,9 +27,11 @@ const FaXmark = <icons.FaXmark
 
 export interface ITrackDrawer {
     track: string;
-
     open: boolean;
     setOpen: (value: boolean) => void;
+
+    onAdd?: (playlist: IPlaylistPreview) => void;
+    
     onClose?: () => void;
 }
 
@@ -50,6 +52,8 @@ export default function TrackDrawer(props: ITrackDrawer) {
                 toast.success("The track has been added to your playlist!");
 
                 setOpen(false);
+
+                props.onAdd?.(playlist);
             })
     }
 

@@ -4,11 +4,13 @@ import Link from "next/link";
 
 import * as icons from "react-icons/fa6";
 
-import TrackDrawer from "../drawers/track-drawer";
+import TrackDrawer from "@/components/drawers/track-drawer";
 
 export interface ITrackProps {
     track: any;
     className?: string;
+    onAdd?: (id: string) => void;
+
     onClose?: () => void;
 }
 
@@ -127,6 +129,8 @@ export default function Track(props: ITrackProps) {
                 open={open}
                 setOpen={setOpen}
                 onClose={() => setOpen(false)}
+
+                onAdd={(playlist) => props.onAdd?.(playlist._id)}
             />
         </div>
     );
