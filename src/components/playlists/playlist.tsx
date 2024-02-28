@@ -86,10 +86,8 @@ export default function Playlist(props: IPlaylistProps) {
                 toast.success("Your playlist has been updated!");
             })
             .catch((error: any) => {
-                if (error.response?.status == 400)
-                    toast.error(error.response?.data.error);
-                else
-                    toast.error("Generic error, try again later...");
+                toast.error(error.response?.data.error ??
+                    "Generic error, try again later...");
             });
     }
 
