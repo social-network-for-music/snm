@@ -6,6 +6,8 @@ import {
     useState
 } from "react";
 
+import { toast } from "react-toastify";
+
 import * as icons from "react-icons/fa";
 
 import * as _users from "@/api/users.api";
@@ -16,15 +18,17 @@ import Template from "@/components/template";
 
 import Message from "@/components/utilities/message";
 
+import Create from "@/components/playlists/modals/create";
+
 import Playlist from "@/components/playlists/playlist";
 import PlaylistPreview from "@/components/playlists/playlist-preview";
 import PlaylistPreviewHorizontal from "@/components/playlists/playlist-preview-horizontal";
 
 import type IUser from "@/types/user";
-
 import type IPlaylist from "@/types/playlist";
-
 import type IPlaylistPreview from "@/types/playlist-preview";
+
+import type { IPostData } from "@/api/playlists.api";
 
 interface ISelectProps extends PropsWithChildren {
     active: boolean;
@@ -55,6 +59,8 @@ export default function Playlists() {
 
     const [select, setSelect] = useState<"all" | "owner" | "follower">("all");
 
+    const [open, setOpen] = useState<boolean>(false); 
+
     useEffect(() => {
         _users.get()
             .then(({ data }) => setUser(data))
@@ -80,6 +86,14 @@ export default function Playlists() {
         endpoint(playlist._id)
             .then((_) => index(select))
             .catch((_) => {/* ignore */});
+    }
+
+    function create(data: IPostData): void {
+        _playlists.post(data)
+            .then((_) => index(select))
+            .catch((error: any) => {
+                toast.error(error.response?.data.error);
+            });
     }
 
     return (
@@ -135,6 +149,8 @@ export default function Playlists() {
                                     className="w-48 text-black text-lg py-2 rounded-full
                                         font-bold bg-spotify-green hover:bg-spotify-darkgreen
                                         active:bg-spotify-darkgreen leading-tight"
+                                    
+                                    onClick={(_) => setOpen(true)}
                                 >
                                     Add playlist <icons.FaPlus className="inline -mt-1 ml-1"/>
                                 </button>
@@ -227,6 +243,12 @@ export default function Playlists() {
                     </div>
                 </div>
             </div>
+
+            <Create
+                open={open}
+                onCancel={(_) => setOpen(false)}
+                onSubmit={(data) => create(data)}
+            />
         </Template>
     );
 }

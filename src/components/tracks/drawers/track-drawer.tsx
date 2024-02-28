@@ -17,7 +17,7 @@ import {
 } from "antd/lib";
 
 import type IPlaylistPreview from "@/types/playlist-preview";
-import PlaylistPreviewHorizontal from "../playlists/playlist-preview-horizontal";
+import PlaylistPreviewHorizontal from "../../playlists/playlist-preview-horizontal";
 
 const FaXmark = <icons.FaXmark 
     className="text-[#C1C1C1] hover:text-white active:text-white"

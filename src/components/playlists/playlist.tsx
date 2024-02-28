@@ -12,8 +12,8 @@ import * as icons from "react-icons/fa6";
 
 import * as _playlists from "@/api/playlists.api";
 
+import Edit from "@/components/playlists/modals/create";
 import Tags from "@/components/playlists/utilities/tags";
-
 import Thumbnail from "@/components/playlists/utilities/thumbnail";
 
 import Track from "@/components/tracks/track";
@@ -48,7 +48,9 @@ export default function Playlist(props: IPlaylistProps) {
     } = props;
 
     const [owner, setOwner] = useState<boolean>();
+
     const [playlist, setPlaylist] = useState<IPlaylist>();
+    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
     const [delModalOpen, setDelModalOpen] = useState<boolean>(false);
 
     const [track, setTrack] = useState<any>();
@@ -70,10 +72,6 @@ export default function Playlist(props: IPlaylistProps) {
         return _playlists.get(id)
             .then(({ data }) => setPlaylist(data))
             .catch((_) => {/* ignore */});
-    }
-
-    function edit(playlist: IPlaylist): void {
-
     }
 
     function del(playlist: IPlaylist): void {
@@ -131,7 +129,7 @@ export default function Playlist(props: IPlaylistProps) {
                                         <div 
                                             className="inline hover:text-spotify-white cursor-pointer mr-3.5"
         
-                                            onClick={(_) => edit(playlist)}
+                                            onClick={(_) => setEditModalOpen(true)}
                                         >
                                             Edit <icons.FaGear className="inline -mt-1 ml-0.5"/>
                                         </div>

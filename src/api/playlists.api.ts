@@ -24,6 +24,30 @@ export function search(params: ISearchParams): Promise<AxiosResponse<IPlaylistPr
     );
 }
 
+export interface IPostData {
+    title: string;
+    description: string;
+    public: boolean;
+}
+
+export function post(data: IPostData): Promise<AxiosResponse<IPlaylist>> {
+    const token = localStorage.getItem("token");
+
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+
+        "Content-Type": "application/json"
+    };
+
+    return axios(`${process.env.API}/playlists`,
+        {
+            method: "POST",
+            headers: headers,
+            data: data
+        }
+    );
+}
+
 export interface IPatchData {
     title?: string;
     description?: string;

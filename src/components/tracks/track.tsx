@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import * as icons from "react-icons/fa6";
 
-import TrackDrawer from "@/components/drawers/track-drawer";
+import TrackDrawer from "@/components/tracks/drawers/track-drawer";
 
 export interface ITrackProps {
     track: any;
