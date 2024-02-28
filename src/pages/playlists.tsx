@@ -90,9 +90,18 @@ export default function Playlists() {
 
     function create(data: IPostData): void {
         _playlists.post(data)
-            .then((_) => index(select))
+            .then((_) => {
+                index(select);
+
+                setOpen(false);
+
+                toast.success("Your playlist has been created!");
+            })
             .catch((error: any) => {
-                toast.error(error.response?.data.error);
+                if (error.response?.status == 400)
+                    toast.error(error.response?.data.error);
+                else
+                    toast.error("Generic error, try again later...");
             });
     }
 

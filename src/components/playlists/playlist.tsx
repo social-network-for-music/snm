@@ -191,7 +191,7 @@ export default function Playlist(props: IPlaylistProps) {
         
                                 <div className="px-5">
                                     { playlist.description &&
-                                        <div className="text-base w-full text-wrap break-all">
+                                        <div className="w-full mb-2.5 text-base text-wrap break-all">
                                             { playlist.description }
                                         </div>
                                     }
@@ -201,7 +201,7 @@ export default function Playlist(props: IPlaylistProps) {
                                             playlist={playlist}
 
                                             owner={owner}
-                                            className="text-lg mt-3.5 pb-2.5 mb-3.5"
+                                            className="text-lg mt-1 pb-2.5 mb-3.5"
                                             onChange={(_) => get(playlist._id)}
                                         />
                                     }
@@ -215,13 +215,13 @@ export default function Playlist(props: IPlaylistProps) {
         
                                         { playlist.tracks.map((track, i) => (
                                             <div
+                                                key={i}
+                                            
                                                 className="flex justify-between"
                                             >
                                                 <TrackPreviewHorizontal
-                                                    key={i}
                                                     track={track}
                                                     className="mb-3 truncate"
-        
                                                     onClick={(_) => setTrack(track)}
                                                 />
         

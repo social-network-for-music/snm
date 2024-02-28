@@ -22,8 +22,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <div className={inter.className}>
         <ToastContainer
           theme="colored"
-
           position="top-center"
+          pauseOnHover={false}
+
+          closeOnClick={true}
+
+          limit={3}
         />
 
         <Component {...pageProps} />
