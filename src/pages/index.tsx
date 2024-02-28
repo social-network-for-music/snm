@@ -1,4 +1,8 @@
-import { useEffect } from "react";
+import { 
+	useEffect,
+	
+	useState 
+} from "react";
 
 import {
 	useRouter,
@@ -30,6 +34,8 @@ export default function Index() {
 
 		handleSubmit
 	} = useForm<ILoginData>();
+
+	const [visible, setVisible] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (searchParams.get("timeout")) {
@@ -81,7 +87,7 @@ export default function Index() {
 
 					<input
 						type="text"
-						placeholder="john.doe@hotmail.com"
+						placeholder="name@domain.com"
 						className="w-full bg-spotify-gray outline-none mt-2
 							hover:ring-white hover:ring-2 rounded-full px-3.5 py-2
 							text-base text-white placeholder:text-spotify-lightergray"
@@ -95,15 +101,33 @@ export default function Index() {
 						<icons.FaKey className="inline -mt-1 mr-1" /> Password
 					</label>
 
-					<input
-						type="password"
-						placeholder="••••••••••••••••"
-						className="w-full bg-spotify-gray outline-none mt-2
-                            hover:ring-white hover:ring-2 rounded-full px-3.5 py-2
-                            text-base text-white placeholder:text-spotify-lightergray"
 
-						{...register("password")}
-					/>
+					<div
+						className="w-full px-3.5 py-2 mt-2 bg-spotify-gray
+							outline-none hover:ring-white hover:ring-2 
+							rounded-full"
+					>
+						<input
+							type={visible ? "text" : "password"}
+							placeholder="••••••••••••••••"
+							className="w-[90%] text-white text-lg bg-spotify-gray 
+								placeholder:text-spotify-lightergray outline-none"
+
+							{...register("password")}
+						/>
+
+						<div 
+							className="float-right text-xl cursor-pointer
+								text-[#C1C1C1] hover:text-white active:text-white"
+
+							onClick={(_) => setVisible(!visible)}
+						>
+							{ visible ?
+								<icons.FaEye className="inline -mt-1 mr-1"/> :
+								<icons.FaEyeSlash className="inline -mt-1 mr-1"/>
+							}
+						</div>
+					</div>
 				</div>
 
 				<div className="flex items-center mb-4">
@@ -130,7 +154,7 @@ export default function Index() {
 					</button>
 				</div>
 
-				<hr className="mb-4 h-px bg-spotify-white bg-opacity-25 border-0" />
+				<hr className="mb-4 h-px bg-spotify-white bg-opacity-25 border-0"/>
 
 				<div className="text-center">
 					<Link href="/registration" className="text-sm text-spotify-green font-semibold underline">
