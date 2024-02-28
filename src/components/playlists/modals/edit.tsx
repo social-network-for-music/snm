@@ -71,7 +71,7 @@ export default function Edit(props: IEditProps) {
                 </h1>
 
                 <div className="mt-3">
-					<label className="inline-block text-base">
+					<label className="text-base">
 						<icons.FaHeadphones className="inline -mt-1 mr-1"/> Title
 					</label>
 
@@ -87,7 +87,7 @@ export default function Edit(props: IEditProps) {
 				</div>
 
                 <div className="mt-3">
-					<label className="inline-block text-base">
+					<label className="text-base">
 						<icons.FaComment className="inline -mt-1 mr-1"/> Description (optional)
 					</label>
 

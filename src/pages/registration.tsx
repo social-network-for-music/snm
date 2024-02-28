@@ -1,10 +1,4 @@
-import { useEffect } from "react";
-
-import {
-	useRouter,
-
-	useSearchParams
-} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 
@@ -14,42 +8,28 @@ import { useForm } from "react-hook-form";
 
 import * as icons from "react-icons/fa";
 
-import * as _auth from "@/api/auth.api";
+import * as _users from "@/api/users.api";
 
 import type { SubmitHandler } from "react-hook-form";
 
-import type { ILoginData } from "@/api/auth.api";
+import type { IPostData } from "@/api/users.api";
 
-export default function Index() {
+export default function Registration() {
 	const router = useRouter();
-
-	const searchParams = useSearchParams();
 
 	const {
 		register,
 
 		handleSubmit
-	} = useForm<ILoginData>();
+	} = useForm<IPostData>();
 
-	useEffect(() => {
-		if (searchParams.get("timeout")) {
-			localStorage.removeItem("token");
+	const onSubmit: SubmitHandler<IPostData> = (data) => {
+		_users.post(data)
+			.then((_) => {
+				toast.success("Registration successful! \
+                    Log in now to access your account.");
 
-			toast.info("Session expired, log in again...");
-		}
-	}, []);
-
-	useEffect(() => {
-		if (localStorage.getItem("token"))
-			router.push("/explore/tracks");
-	}, []);
-
-	const onSubmit: SubmitHandler<ILoginData> = (data) => {
-		_auth.login(data)
-			.then(request => {
-				localStorage.setItem("token", request.data.token);
-
-				router.push("/explore/tracks");
+				router.push("/");
 			})
 			.catch((error: any) => {
 				toast.error(error.response?.data.error ??
@@ -70,7 +50,7 @@ export default function Index() {
 					</h1>
 
                 	<h3 className="xs:text-base sm:text-xl font-semibold -skew-y-3">
-						Log in to explore our awesome playlists!
+						Join our amazing playlists community!
 					</h3>
 				</div>
 
@@ -90,32 +70,36 @@ export default function Index() {
 					/>
 				</div>
 
-				<div className="mb-5">
-					<label className="text-base mb-2">
+                <div className="mb-5">
+					<label className="text-base">
+						<icons.FaUser className="inline -mt-1 mr-1" /> Username
+					</label>
+
+					<input
+						type="text"
+						placeholder="John Doe"
+						className="w-full bg-spotify-gray outline-none mt-2
+							hover:ring-white hover:ring-2 rounded-full px-3.5 py-2
+							text-base text-white placeholder:text-spotify-lightergray"
+
+						{...register("username")}
+					/>
+				</div>
+
+				<div className="mb-6">
+					<label className="text-base">
 						<icons.FaKey className="inline -mt-1 mr-1" /> Password
 					</label>
 
 					<input
 						type="password"
 						placeholder="••••••••••••••••"
-						className="w-full bg-spotify-gray outline-none mt-2
+						className="w-full bg-spotify-gray outline-none mt-2 
                             hover:ring-white hover:ring-2 rounded-full px-3.5 py-2
                             text-base text-white placeholder:text-spotify-lightergray"
 
 						{...register("password")}
 					/>
-				</div>
-
-				<div className="flex items-center mb-4">
-					<input
-						type="checkbox"
-						className="w-4 h-4 rounded accent-spotify-green"
-						{...register("rememberMe")}
-					/>
-
-					<label className="ml-2 text-sm">
-						Remember me
-					</label>
 				</div>
 
 				<div className="mb-5">
@@ -126,15 +110,15 @@ export default function Index() {
 							leading-tight bg-spotify-green hover:bg-spotify-darkgreen 
 							active:bg-spotify-darkgreen rounded-full "
 					>
-						Log in
+						Join us now!
 					</button>
 				</div>
 
-				<hr className="mb-4 h-px bg-spotify-white bg-opacity-25 border-0" />
+				<hr className="mb-3.5 h-px bg-spotify-white bg-opacity-25 border-0" />
 
 				<div className="text-center">
-					<Link href="/registration" className="text-sm text-spotify-green font-semibold underline">
-						Don't have an account yet? Join us now!
+					<Link href="/" className="text-sm text-spotify-green font-semibold underline">
+						Already have an account? Log in now!
 					</Link>
 				</div>
 			</form>

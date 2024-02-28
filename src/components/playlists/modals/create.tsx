@@ -62,7 +62,7 @@ export default function Create(props: ICreateProps) {
                 </h1>
 
                 <div className="mt-3">
-					<label className="inline-block text-base">
+					<label className="text-base">
 						<icons.FaHeadphones className="inline -mt-1 mr-1"/> Title
 					</label>
 
@@ -78,7 +78,7 @@ export default function Create(props: ICreateProps) {
 				</div>
 
                 <div className="mt-3">
-					<label className="inline-block text-base">
+					<label className="text-base">
 						<icons.FaComment className="inline -mt-1 mr-1"/> Description (optional)
 					</label>
 
