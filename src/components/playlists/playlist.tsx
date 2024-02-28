@@ -250,7 +250,7 @@ export default function Playlist(props: IPlaylistProps) {
                                                 <TrackPreviewHorizontal
                                                     key={i}
                                                     track={track}
-                                                    className="mb-3"
+                                                    className="mb-3 truncate"
         
                                                     onClick={(_) => setTrack(track)}
                                                 />
