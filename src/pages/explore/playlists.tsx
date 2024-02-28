@@ -76,6 +76,8 @@ export default function Playlists() {
                         <div className={`${playlist ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
                             <div className="flex flex-wrap justify-center items-center cursor-pointer xs:mb-3 md:mb-5">
                                 <Input 
+                                    className="mt-2 py-3"
+
                                     icon={icons.FaSearch}
                                     placeholder="What do you want to listen to?"
                                     onChange={(title) => setQuery({ ...query, title })}
@@ -92,7 +94,7 @@ export default function Playlists() {
                                 { !collapsed &&
                                     <div className="w-full mb-1">
                                         <Input 
-                                            className="xs:py-1 sm:py-2"
+                                            className="mt-2 xs:py-1 sm:py-2"
 
                                             icon={icons.FaTag}
                                             placeholder="Search by tag (e.g. rock)"
@@ -100,7 +102,7 @@ export default function Playlists() {
                                         />
 
                                         <Input 
-                                            className="xs:py-1 sm:py-2"
+                                            className="mt-2 xs:py-1 sm:py-2"
 
                                             icon={icons.FaMusic}
                                             placeholder="Search by track (e.g. Africa)"

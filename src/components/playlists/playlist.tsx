@@ -12,7 +12,9 @@ import * as icons from "react-icons/fa6";
 
 import * as _playlists from "@/api/playlists.api";
 
-import Thumbnail from "@/components/utilities/thumbnail";
+import Tags from "@/components/playlists/utilities/tags";
+
+import Thumbnail from "@/components/playlists/utilities/thumbnail";
 
 import Track from "@/components/tracks/track";
 
@@ -97,16 +99,6 @@ export default function Playlist(props: IPlaylistProps) {
     
     function remove(playlist: IPlaylist, id: string): void {
         _playlists.remove(playlist._id, id)
-            .then((_) => get(playlist._id))
-            .catch((_) => {/* ignore */});
-    }
-
-    function removeTag(playlist: IPlaylist, index: number): void {
-        const tags = [ ...playlist.tags ];
-
-        tags.splice(index, 1);
-
-        _playlists.patch(playlist._id, { tags })
             .then((_) => get(playlist._id))
             .catch((_) => {/* ignore */});
     }
@@ -207,33 +199,13 @@ export default function Playlist(props: IPlaylistProps) {
                                     }
         
                                     { (owner || playlist.tags.length != 0) &&
-                                        <div className="text-lg mt-3.5 pb-2.5 overflow-x-scroll mb-3.5">
-                                            { playlist.tags.map((tag, i) => (
-                                                <div 
-                                                    key={i}
-        
-                                                    className="inline mr-2.5 px-3 bg-spotify-lightgray text-spotify-white rounded-full"
-                                                >
-                                                    { tag } { owner && 
-                                                        <span 
-                                                            className="text-sm text-[#C1C1C1] hover:text-white active:text-white cursor-pointer"
+                                        <Tags
+                                            playlist={playlist}
 
-                                                            onClick={(_) => removeTag(playlist, i)}
-                                                        >
-                                                            <icons.FaTrash className="inline -mt-1" />
-                                                        </span> 
-                                                    }
-                                                </div>
-                                            ))}
-
-                                            { owner && (
-                                                <div 
-                                                    className="inline mr-2.5 text-[#C1C1C1] hover:text-white active:text-white rounded-full cursor-pointer"
-                                                >
-                                                    { <icons.FaPlus className="inline -mt-1" /> }
-                                                </div>
-                                            )}
-                                        </div>
+                                            owner={owner}
+                                            className="text-lg mt-3.5 pb-2.5 mb-3.5"
+                                            onChange={(_) => get(playlist._id)}
+                                        />
                                     }
         
                                     <div className="mt-3"> 
@@ -272,7 +244,7 @@ export default function Playlist(props: IPlaylistProps) {
         
                             <Modal
                                 open={delModalOpen}    
-                                closeIcon={ FaXmark }
+                                closeIcon={FaXmark}
                                 footer={null}
         
                                 width={400}
@@ -281,7 +253,7 @@ export default function Playlist(props: IPlaylistProps) {
                             >
                                 <div className="text-spotify-white">
                                     <h1 className="text-lg font-semibold">
-                                        Warning <icons.FaTriangleExclamation className="inline -mt-1 "/>
+                                        Warning <icons.FaTriangleExclamation className="inline -mt-1 ml-0.5"/>
                                     </h1>
         
                                     <p className="text-sm mt-1">

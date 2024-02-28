@@ -52,7 +52,7 @@ export default function Tracks() {
                         <div className={`${track ? "xs:hidden xl:flex" : "flex"} flex-col w-full h-full p-5 text-white`}>
                             <Input 
                                 icon={icons.FaSearch}
-                                className="xs:mb-5 md:mb-7"
+                                className="xs:mb-5 md:mb-7 mt-2 py-3"
                                 placeholder="What are your favorite songs?"
 
                                 onChange={(value) => setValue(value)}

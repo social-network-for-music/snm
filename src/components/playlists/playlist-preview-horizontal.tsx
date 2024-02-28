@@ -2,7 +2,7 @@ import { MouseEventHandler } from "react";
 
 import * as icons from "react-icons/fa6";
 
-import Thumbnail from "@/components/utilities/thumbnail";
+import Thumbnail from "@/components/playlists/utilities/thumbnail";
 
 import type IUser from "@/types/user";
 
