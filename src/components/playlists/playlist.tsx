@@ -12,7 +12,7 @@ import * as icons from "react-icons/fa6";
 
 import * as _playlists from "@/api/playlists.api";
 
-import Edit from "@/components/playlists/modals/create";
+import Edit from "@/components/playlists/modals/edit";
 import Tags from "@/components/playlists/utilities/tags";
 import Thumbnail from "@/components/playlists/utilities/thumbnail";
 
@@ -23,6 +23,8 @@ import TrackPreviewHorizontal from "@/components/tracks/track-preview-horizontal
 import type IPlaylist from "@/types/playlist";
 
 import type IUser from "@/types/user";
+
+import type { IPatchData } from "@/api/playlists.api";
 
 const FaXmark = <icons.FaXmark 
     className="text-[#C1C1C1] hover:text-white active:text-white"
@@ -74,10 +76,27 @@ export default function Playlist(props: IPlaylistProps) {
             .catch((_) => {/* ignore */});
     }
 
+    function edit(playlist: IPlaylist, data: IPatchData): void {
+        _playlists.patch(playlist._id, data)
+            .then((_) => {
+                get(playlist._id);
+
+                setEditModalOpen(false);
+
+                toast.success("Your playlist has been updated!");
+            })
+            .catch((error: any) => {
+                if (error.response?.status == 400)
+                    toast.error(error.response?.data.error);
+                else
+                    toast.error("Generic error, try again later...");
+            });
+    }
+
     function del(playlist: IPlaylist): void {
         _playlists.del(playlist._id)
             .then((_) => {
-                toast.success("The playlist has been successfully deleted!");
+                toast.success("The playlist has been deleted!");
                 props.onChange?.(playlist);
                 props.onClose?.();
             });
@@ -191,7 +210,7 @@ export default function Playlist(props: IPlaylistProps) {
         
                                 <div className="px-5">
                                     { playlist.description &&
-                                        <div className="w-full mb-2.5 text-base text-wrap break-all">
+                                        <div className="w-full mb-3 text-base text-wrap break-all">
                                             { playlist.description }
                                         </div>
                                     }
@@ -281,6 +300,14 @@ export default function Playlist(props: IPlaylistProps) {
                                     </button>
                                 </div>
                             </Modal>
+
+                            <Edit
+                                playlist={playlist}
+
+                                open={editModalOpen}
+                                onCancel={(_) => setEditModalOpen(false)}
+                                onSubmit={(data) => edit(playlist, data)}
+                            />
                         </div>
                     )}
                 </div>

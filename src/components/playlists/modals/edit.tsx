@@ -12,7 +12,9 @@ import * as icons from "react-icons/fa6";
 
 import * as _playlists from "@/api/playlists.api";
 
-import type { IPostData } from "@/api/playlists.api";
+import type IPlaylist from "@/types/playlist";
+
+import type { IPatchData } from "@/api/playlists.api";
 
 const FaXmark = <icons.FaXmark 
     className="text-[#C1C1C1] hover:text-white active:text-white"
@@ -20,26 +22,33 @@ const FaXmark = <icons.FaXmark
     size={25}
 />;
 
-export interface ICreateProps {
+export interface IEditProps {
+    playlist: IPlaylist;
+
     open: boolean;
     onCancel?: MouseEventHandler;
-    onSubmit?: (data: IPostData) => void;
+    onSubmit?: (data: IPatchData) => void;
 }
 
-export default function Create(props: ICreateProps) {
-    const { open } = props;
+export default function Edit(props: IEditProps) {
+    const { 
+        playlist,
+        
+        open 
+    } = props;
 
     const { 
-        reset,
-        
-        watch,
         register,
         handleSubmit,
-    } = useForm<IPostData>();
+        setValue
+    } = useForm<IPatchData>();
 
     useEffect(() => {
-        if (open)
-            reset();
+        if (open) {
+            setValue("title", playlist.title);
+
+            setValue("description", playlist.description);
+        }
     }, [open]);
 
     return (
@@ -58,7 +67,7 @@ export default function Create(props: ICreateProps) {
                 onSubmit={handleSubmit((data) => props.onSubmit?.(data))}
             >
                 <h1 className="text-lg font-semibold">
-                    Add playlist <icons.FaCompactDisc className="inline -mt-1 ml-0.5"/>
+                    Edit playlist <icons.FaGears className="inline -mt-1 ml-0.5"/>
                 </h1>
 
                 <div className="mt-3">
@@ -94,41 +103,7 @@ export default function Create(props: ICreateProps) {
 					/>
 				</div>
 
-                <div className="mt-2.5">
-                    <label className="inline-flex items-center cursor-pointer">
-                        <input 
-                            type="checkbox"
-                            className="sr-only peer"
-                            {...register("public")}
-                        />
-
-                        <div 
-                            className="relative w-11 h-6 bg-spotify-gray rounded-full peer peer-focus:outline-none
-                                peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full
-                                peer-checked:bg-spotify-darkgreen peer-checked:after:border-spotify-white 
-                                after:absolute after:top-[2px] after:start-[2px] after:bg-spotify-white 
-                                after:border-gray-300 after:border after:rounded-full after:h-5 
-                                after:w-5 after:transition-all"
-                        >
-                            {/* Nothing to do. */}
-                        </div>
-                        
-                        <span 
-                            className="ml-2.5 text-base text-spotify-white select-none"
-                        >
-                            { watch("public") ?
-                                <p>
-                                    Public <icons.FaEarthAmericas className="inline -mt-1 ml-0.5"/>
-                                </p> :
-                                <p>
-                                    Private <icons.FaLock className="inline -mt-1 ml-0.5"/>
-                                </p>
-                            }
-                        </span>
-                    </label>
-                </div>
-
-                <div className="w-full mt-0.5 text-right">
+                <div className="w-full mt-2 text-right">
                     <button
                         className="text-black text-base py-1.5 px-3.5 rounded-full
                             font-semibold bg-spotify-green hover:bg-spotify-darkgreen
@@ -150,7 +125,7 @@ export default function Create(props: ICreateProps) {
                             font-semibold bg-spotify-green hover:bg-spotify-darkgreen
                             active:bg-spotify-darkgreen leading-tight"
                     >
-                        Create <icons.FaPlus className="inline -mt-1 ml-0.5"/>
+                        Update <icons.FaPen className="inline -mt-1 ml-0.5"/>
                     </button>
                 </div>
             </form>
