@@ -24,6 +24,30 @@ export function search(params: ISearchParams): Promise<AxiosResponse<IPlaylistPr
     );
 }
 
+export interface IPatchData {
+    title?: string;
+    description?: string;
+    tags?: string[];
+}
+
+export function patch(id: string, data: IPatchData): Promise<AxiosResponse<IPlaylist>> {
+    const token = localStorage.getItem("token");
+
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+
+        "Content-Type": "application/json"
+    };
+
+    return axios(`${process.env.API}/playlists/${id}`,
+        {
+            method: "PATCH",
+            headers: headers,
+            data: data
+        }
+    );
+}
+
 export function index(select: "all" | "owner" | "follower"): Promise<AxiosResponse<IPlaylistPreview[]>> {
     const token = localStorage.getItem("token");
 
