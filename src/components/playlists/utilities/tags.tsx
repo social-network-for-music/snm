@@ -4,17 +4,15 @@ import {
     useState
 } from "react";
 
+import { useForm } from "react-hook-form";
+
 import { toast } from "react-toastify";
 
 import { Modal } from "antd/lib";
 
-import { AxiosError } from "axios";
-
 import * as icons from "react-icons/fa6";
 
 import * as _playlists from "@/api/playlists.api";
-
-import Input from "@/components/utilities/input";
 
 import type IPlaylist from "@/types/playlist";
 
@@ -39,13 +37,19 @@ export default function Tags(props: ITagsProps) {
         owner 
     } = props;
 
-    const [open, setOpen] = useState<boolean>(false);
+    const { 
+        reset,
+        watch,
+        register,
 
-    const [tag, setTag] = useState<string>("");
+        getValues
+    } = useForm<{ tag: string }>();
+
+    const [open, setOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (open)
-            setTag("");
+            reset();
     }, [open]);
 
     function add(tag: string): void {
@@ -56,15 +60,10 @@ export default function Tags(props: ITagsProps) {
                 props.onChange?.(tags);
                 
                 setOpen(false);
-
-                setTag("");
             })
-            .catch((error: AxiosError) => {
-                if (error.response?.status == 400)
-                    toast.error("Tags must be alpha-numeric (and \
-                        between 3 and 18 characters long).");
-                else
-                    toast.error("Generic error, try again later...");
+            .catch((error: any) => {
+                toast.error(error.response?.data.error ??
+                    "Generic error, try again later...");
             });
     }
 
@@ -117,21 +116,22 @@ export default function Tags(props: ITagsProps) {
 
                 onCancel={(_) => setOpen(false)}
             >
-                <div className="text-spotify-white">
+                <form className="text-spotify-white">
                     <h1 className="text-lg font-semibold">
                         Add tag <icons.FaTag className="inline -mt-1 ml-0.5"/>
                     </h1>
 
-                    <Input
-                        icon={icons.FaTag}
-                        className="text-nowrap mt-2 py-2"
+                    <input
+                        type="text"
                         placeholder="Your new tag (e.g. good vibes)"
+                        className="w-full bg-spotify-gray outline-none mt-2
+                            hover:ring-white hover:ring-2 rounded-full px-3.5 py-2
+                            text-base text-white placeholder:text-spotify-lightergray
+                            peer"
 
-                        value={tag}
-
-                        onChange={(value) => setTag(value)}
+                        {...register("tag")}
                     />
-                </div>
+                </form>
 
                 <div className="w-full mt-3 text-right">
                     <button
@@ -150,9 +150,9 @@ export default function Tags(props: ITagsProps) {
                             disabled:bg-opacity-65 disabled:hover:bg-opacity-65 disabled:active:bg-opacity-65 
                             disabled:hover:bg-spotify-green disabled:active:bg-spotify-green leading-tight"
 
-                        disabled={!tag}
+                        disabled={!watch("tag")}
 
-                        onClick={(_) => add(tag!.trim().toLowerCase())}
+                        onClick={(_) => add(getValues("tag").trim().toLowerCase())}
                     >
                         Add <icons.FaPlus className="inline -mt-1"/>
                     </button>
