@@ -71,7 +71,9 @@ export default function Template(props: ITemplateProps) {
                         zIndex: 10_000
                     }}
                 >
-                    <Menu />
+                    <Menu 
+                        onClose={(_) => setCollapsed(true)}
+                    />
                 </Layout.Sider>
 
                 <Layout.Sider

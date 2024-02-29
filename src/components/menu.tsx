@@ -1,16 +1,18 @@
 import { 
-    usePathname,
-    
-    useRouter 
-} from "next/navigation";
-
-import { 
     MouseEventHandler,
-    
-    PropsWithChildren 
+    PropsWithChildren,
+    useState
 } from "react";
 
+import {
+    usePathname,
+
+    useRouter
+} from "next/navigation";
+
 import * as icons from "react-icons/fa6";
+
+import Settings from "@/components/settings";
 
 interface IItemProps extends PropsWithChildren {
     url?: string;
@@ -40,8 +42,14 @@ function Item(props: IItemProps) {
     )
 }
 
-export default function Menu() {
+export interface IMenuProps {
+    onClose?: MouseEventHandler;
+}
+
+export default function Menu(props: IMenuProps) {
     const router = useRouter();
+
+    const [open, setOpen] = useState<boolean>(false);
 
     function logout(): void {
         localStorage.removeItem("token");
@@ -72,7 +80,13 @@ export default function Menu() {
             </div>
 
             <div>
-                <Item url="/settings">
+                <Item 
+                    onClick={(e) => {
+                        setOpen(true);
+
+                        props.onClose?.(e);
+                    }}
+                >
                     <icons.FaWrench className="inline -mt-1 mr-4" size={30}/> Settings
                 </Item>
             </div>
@@ -81,11 +95,13 @@ export default function Menu() {
                 <Item onClick={logout}>
                     <icons.FaRightFromBracket className="inline -mt-1 mr-4" size={30}/> Logout
                 </Item>
-
-                <p className="text-white">
-                    
-                </p>
             </div>
+
+            <Settings 
+                open={open}
+                
+                onCancel={(_) => setOpen(false)}
+            />
         </div>
     );
 }
