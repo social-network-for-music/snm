@@ -10,6 +10,8 @@ import * as icons from "react-icons/fa6";
 
 import * as _users from "@/api/users.api";
 
+import Artists from "@/components/settings/utilities/artists";
+
 import Genres from "@/components/settings/utilities/genres";
 
 import type IUser from "@/types/user";
@@ -96,6 +98,18 @@ export default function Settings(props: ISettingsProps) {
                     <hr className="mt-3.5 h-px bg-spotify-white bg-opacity-25 border-0" />
 
                     <div className="mt-3 overflow-x-scroll">
+                        <label className="text-base">
+                            <icons.FaHeadphonesSimple className="inline -mt-1 mr-1"/> Favorite artists
+                        </label>
+
+                        <Artists
+                            user={user}
+                            className="text-lg mt-2.5 pb-2.5"
+                            onChange={(_) => get()}
+                        />
+                    </div>
+
+                    <div className="mt-5 overflow-x-scroll">
                         <label className="text-base">
                             <icons.FaMusic className="inline -mt-1 mr-1"/> Favorite genres
                         </label>

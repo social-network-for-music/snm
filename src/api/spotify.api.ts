@@ -35,3 +35,15 @@ export function recommendations(): Promise<AxiosResponse<any>> {
         }
     );
 }
+
+export function artist(id: string): Promise<AxiosResponse<any>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/spotify/artists/${id}`,
+        {
+            method: "GET",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
