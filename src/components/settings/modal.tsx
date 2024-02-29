@@ -80,11 +80,23 @@ export default function Settings(props: ISettingsProps) {
         _users.del()
             .then((_) => {
                 toast.success("Your account has been \
-                    sucessfully deleted!");
+                    successfully deleted!");
 
                 localStorage.removeItem("token");
 
                 router.push("/");
+            });
+    }
+
+    function patch(): void {
+        _users.patch({ username })
+            .then((_) => {
+                toast.success("Your account's username has \
+                    been successfully updated!");
+            })
+            .catch((error: any) => {
+                toast.error(error.response?.data.error ??
+					"Generic error, try again later...");
             });
     }
 
@@ -140,6 +152,8 @@ export default function Settings(props: ISettingsProps) {
                                 className="text-black text-base py-1.5 px-3.5 rounded-full
                                     font-semibold bg-spotify-green hover:bg-spotify-darkgreen
                                     active:bg-spotify-darkgreen leading-tight"
+
+                                onClick={(_) => patch()}
                             >
                                 Update <icons.FaPen className="inline -mt-1 "/>
                             </button>
