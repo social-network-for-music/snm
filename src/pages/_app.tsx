@@ -34,6 +34,8 @@ export default function App({ Component, pageProps }: AppProps) {
           closeOnClick={true}
 
           limit={3}
+
+          className="md:!w-auto md:max-w-[550px]"
         />
 
         <Component {...pageProps} />

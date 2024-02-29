@@ -192,7 +192,7 @@ export default function Genres(props: IGenresProps) {
                 setOpen(false);
             })
             .catch((error: any) => {
-                toast.error(error.response?.status.error ??
+                toast.error(error.response?.data.error ??
                     "Generic error, try again later...");
             });
     }
