@@ -14,9 +14,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main>
+    <div>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Social Network for Music</title>
+
+        <link rel="shortcut icon" href="/favicon.ico"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
       </Head>
 
       <div className={inter.className}>
@@ -32,6 +38,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
         <Component {...pageProps} />
       </div>
-    </main>
+    </div>
   );
 }
