@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { 
+    useEffect,
+    
+    useState
+} from "react";
 
 import { toast } from "react-toastify";
 
@@ -38,6 +42,11 @@ export default function Tags(props: ITagsProps) {
     const [open, setOpen] = useState<boolean>(false);
 
     const [tag, setTag] = useState<string>("");
+
+    useEffect(() => {
+        if (open)
+            setTag("");
+    }, [open]);
 
     function add(tag: string): void {
         const tags = [ ...playlist.tags, tag ];
@@ -136,9 +145,10 @@ export default function Tags(props: ITagsProps) {
                     </button>
 
                     <button
-                        className="text-black text-base py-1.5 px-3.5 rounded-full
-                            font-semibold bg-spotify-green hover:bg-spotify-darkgreen
-                            active:bg-spotify-darkgreen leading-tight"
+                        className="text-black text-base py-1.5 px-3.5 rounded-full font-semibold 
+                            bg-spotify-green hover:bg-spotify-darkgreen active:bg-spotify-darkgreen 
+                            disabled:bg-opacity-65 disabled:hover:bg-opacity-65 disabled:active:bg-opacity-65 
+                            disabled:hover:bg-spotify-green disabled:active:bg-spotify-green leading-tight"
 
                         disabled={!tag}
 

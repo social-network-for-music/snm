@@ -12,7 +12,7 @@ import {
 
 import * as icons from "react-icons/fa6";
 
-import Settings from "@/components/settings";
+import Settings from "@/components/settings/modal";
 
 interface IItemProps extends PropsWithChildren {
     url?: string;

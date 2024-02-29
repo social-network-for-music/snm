@@ -12,6 +12,18 @@ export function tracks(q: string): Promise<AxiosResponse<any>> {
     );
 }
 
+export function genres(): Promise<AxiosResponse<any>> {
+    const token = localStorage.getItem("token");
+
+    return axios(`${process.env.API}/spotify/genres`,
+        {
+            method: "GET",
+
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+    );
+}
+
 export function recommendations(): Promise<AxiosResponse<any>> {
     const token = localStorage.getItem("token");
 
