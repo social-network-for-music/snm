@@ -12,6 +12,8 @@ import {
 
 import { toast } from "react-toastify";
 
+import Head from "next/head";
+
 import { useRouter } from "next/navigation";
 
 import { AxiosError } from "axios";
@@ -24,9 +26,13 @@ import Menu from "./menu";
 
 export interface ITemplateProps extends PropsWithChildren {
     auth?: boolean;
+
+    title?: string;
 }
 
 export default function Template(props: ITemplateProps) {
+    const { title } =  props;
+
     const router = useRouter();
 
     const [collapsed, setCollapsed] = useState<boolean>(true);
@@ -96,6 +102,12 @@ export default function Template(props: ITemplateProps) {
                     </button>
 
                     <Layout.Content>
+                        { title && (
+                            <Head>
+                                <title>{ title }</title>
+                            </Head>
+                        )}
+
                         {props.children}
                     </Layout.Content>
                 </Layout>

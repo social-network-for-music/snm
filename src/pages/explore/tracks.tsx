@@ -39,7 +39,7 @@ export default function Tracks() {
     }, [value]);
 
     return (
-        <Template auth={true}>
+        <Template auth={true} title="Social Network for Music | Explore tracks">
             <div className="grid grid-cols-12 gap-0">
                 <div
                     className="xs:col-span-12 xl:col-span-8 xs:px-0 md:px-5
