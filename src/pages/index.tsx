@@ -47,7 +47,7 @@ export default function Index() {
 
 	useEffect(() => {
 		if (localStorage.getItem("token"))
-			router.push("/explore/tracks");
+			router.push("/playlists");
 	}, []);
 
 	const onSubmit: SubmitHandler<ILoginData> = (data) => {
@@ -55,7 +55,7 @@ export default function Index() {
 			.then(request => {
 				localStorage.setItem("token", request.data.token);
 
-				router.push("/explore/tracks");
+				router.push("/playlists");
 			})
 			.catch((error: any) => {
 				toast.error(error.response?.data.error ??
